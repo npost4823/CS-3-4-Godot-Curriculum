@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://doih0wyrka2p1" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_3.png" id="4_jig8b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jig8b"]
+resource_local_to_scene = true
 shader = ExtResource("2_wnlwo")
 shader_parameter/color = Color(0.7819218, 0.7083258, 0.2478461, 1)
 
