@@ -10,14 +10,6 @@ class_name Player
 
 var facing: Vector2 = Vector2.ZERO
 
-# TODO: Add health properties here (Lesson 1)
-# TODO: Add character identity properties here (Lesson 1)  
-# TODO: Add combat stats here (Lesson 1)
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit(0)
-
 
 func _ready():
 	print("Player is ready!")
@@ -65,3 +57,7 @@ func handle_sprite(direction: Vector2) -> void:
 # - heal()
 # - level_up()
 # - attack()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit(0)

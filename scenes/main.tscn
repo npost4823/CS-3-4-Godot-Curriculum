@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bqems63ld323y" path="res://scenes/health_potion.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://beba783l4j8gp" path="res://scenes/chest.tscn" id="6_tipki"]
 [ext_resource type="PackedScene" uid="uid://c6cn64y21oke7" path="res://scenes/torch.tscn" id="7_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://d1v5146j47y5p" path="res://scenes/door.tscn" id="7_tipki"]
+[ext_resource type="PackedScene" uid="uid://c8mf4562xlcu8" path="res://scenes/door.tscn" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://5p2ev4o8h7si" path="res://scenes/lever.tscn" id="8_85g3d"]
 
 [sub_resource type="Environment" id="Environment_jyhfs"]
@@ -72,6 +72,7 @@ position = Vector2(-183.5, 105)
 position = Vector2(150, 29)
 
 [node name="Player" parent="." instance=ExtResource("1_2j8vx")]
+unique_name_in_owner = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
