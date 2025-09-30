@@ -52,6 +52,7 @@ animations = [{
 
 [node name="slime" type="CharacterBody2D"]
 script = ExtResource("1_4h4y0")
+move_points = Array[Vector2]([Vector2(0, 0), Vector2(0, 0)])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -64,3 +65,6 @@ autoplay = "idle"
 frame_progress = 0.10445527
 
 [node name="Detection Radius" parent="." instance=ExtResource("3_b58ev")]
+
+[connection signal="body_entered" from="Detection Radius" to="." method="_on_detection_radius_body_entered"]
+[connection signal="body_exited" from="Detection Radius" to="." method="_on_detection_radius_body_exited"]
