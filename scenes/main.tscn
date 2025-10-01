@@ -85,17 +85,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Instructions" type="Label" parent="UI/Control"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 343.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 10
-text = "Use arrow keys to move. Ready for Lesson 1!"
-
 [node name="slime" parent="." instance=ExtResource("11_ya4ey")]
 position = Vector2(-496, 36)
 move_points = Array[Vector2]([Vector2(-469, 124), Vector2(-324, -19)])
