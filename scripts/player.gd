@@ -57,6 +57,7 @@ func handle_sprite(direction: Vector2) -> void:
 func collect_pickup(_type : String, _amount : int):
 	if _type == "coin":
 		coins += _amount
+		print("Coins: " + str(coins))
 	elif _type == "health_potion":
 		change_health(_amount)
 		
@@ -74,9 +75,10 @@ func change_health(_amount):
 	elif health < 1:
 		die()
 		
+	print("Health: " + str(health))
 
 func die():
-	print("you died!")
+	print("You died!")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

@@ -10,6 +10,7 @@ class_name pickup
 @export var type : String = ""
 @export var label : String = ""
 @export var auto_pickup : bool = true
+var collected: bool = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -23,15 +24,17 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_body_entered(body):
-	if body is Player:
-		body.collect_pickup(type, amount)
-		# Remove the potion after use
-		if auto_pickup:
-			if $AnimationPlayer.has_animation("disappear"):
-				$AnimationPlayer.play("disappear")
-			else: queue_free()
-		else:
-			pass
+	if collected == false:
+		if body is Player:
+			collected = true
+			body.collect_pickup(type, amount)
+			# Remove the potion after use
+			if auto_pickup:
+				if $AnimationPlayer.has_animation("disappear"):
+					$AnimationPlayer.play("disappear")
+				else: queue_free()
+			else:
+				pass
 
 func configure_pickup(_type : String, _label : String) -> bool:
 	if _type == "coin":
