@@ -20,8 +20,11 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body):
 	if body is Player:
-			# Remove the potion after use
-			if auto_pickup:
+		body.collect_pickup(type, amount)
+		# Remove the potion after use
+		if auto_pickup:
+			if $AnimationPlayer.has_animation("disappear"):
 				$AnimationPlayer.play("disappear")
+			else: queue_free()
 		else:
-			print("Player doesn't have heal() method yet - coming in Lesson 2!")
+			pass

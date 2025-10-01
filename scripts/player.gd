@@ -4,8 +4,10 @@ class_name Player
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-# Movement - Controls how fast the player moves
 @export var move_speed: float = 200.0
+@export var maxHealth : int = 10
+@export var health : int = maxHealth
+@export var coins : int = 0
 
 
 var facing: Vector2 = Vector2.ZERO
@@ -52,11 +54,29 @@ func handle_sprite(direction: Vector2) -> void:
 		animated_sprite.play(prefix + "_side")
 		animated_sprite.flip_h = false
 
+func collect_pickup(_type : String, _amount : int):
+	if _type == "coin":
+		coins += _amount
+	elif _type == "health_potion":
+		change_health(_amount)
+		
+
 # TODO: Add character methods here (Lesson 2)
-# - take_damage()
-# - heal()
+
 # - level_up()
 # - attack()
+
+func change_health(_amount): 
+	health += _amount
+	if health > maxHealth:
+		health = maxHealth
+		
+	elif health < 1:
+		die()
+		
+
+func die():
+	print("you died!")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):

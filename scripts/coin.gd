@@ -3,6 +3,3 @@
 @tool
 
 extends pickup
-
-
-@export var color: Color
