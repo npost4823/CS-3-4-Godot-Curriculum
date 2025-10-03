@@ -4,19 +4,13 @@ class_name Player
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-# Movement - Controls how fast the player moves
 @export var move_speed: float = 200.0
+@export var maxHealth : int = 10
+@export var health : int = maxHealth
+@export var coins : int = 0
 
 
 var facing: Vector2 = Vector2.ZERO
-
-# TODO: Add health properties here (Lesson 1)
-# TODO: Add character identity properties here (Lesson 1)  
-# TODO: Add combat stats here (Lesson 1)
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit(0)
 
 
 func _ready():
@@ -60,9 +54,36 @@ func handle_sprite(direction: Vector2) -> void:
 		animated_sprite.play(prefix + "_side")
 		animated_sprite.flip_h = false
 
+func collect_pickup(_type : String, _amount : int):
+	if _type == "coin":
+		coins += _amount
+		print("Coins: " + str(coins))
+	elif _type == "health_potion":
+		change_health(_amount)
+		
+
 # TODO: Add character methods here (Lesson 2)
-# - take_damage()
-# - heal()
+
 # - level_up()
 # - attack()
-#does this push to main
+
+func change_health(_amount): 
+	health += _amount
+	if health > maxHealth:
+		health = maxHealth
+		
+	elif health < 1:
+		die()
+		
+	print("Health: " + str(health))
+
+func die():
+	print("You died!")
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit(0)
+
+func take_damage(damage):
+	health = health - damage
+	print("Minus " + str(damage) + ". You now have " + str(health) + " health")

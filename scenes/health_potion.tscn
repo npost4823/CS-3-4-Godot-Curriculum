@@ -98,6 +98,8 @@ _data = {
 
 [node name="HealthPotion" type="Area2D"]
 script = ExtResource("1_np0hw")
+type = "health_potion"
+label = "small"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_mlk75")

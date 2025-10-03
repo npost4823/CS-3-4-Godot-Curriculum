@@ -2,7 +2,7 @@ extends Area2D
 class_name Spike
 
 # Damage properties
-@export var damage_amount: int = 25
+@export var damage_amount: int = -25
 @export var damage_cooldown: float = 1.0
 
 # Internal tracking
@@ -18,11 +18,9 @@ func _on_body_entered(body):
 	if body is Player and can_damage:
 		print("Player touched spike! Dealing " + str(damage_amount) + " damage")
 		
-		# Try to damage the player (will work once they add take_damage method)
-		if body.has_method("take_damage"):
-			body.take_damage(damage_amount)
-		else:
-			print("Player doesn't have take_damage() method yet - coming in future lesson!")
+		if body.has_method("change_health"):
+			body.change_health(damage_amount)
+		
 		
 		# Play the animation of the spikes resetting
 		$AnimatedSprite2D.stop()
