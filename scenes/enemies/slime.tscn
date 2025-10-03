@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6gaa4kprawy0"]
+[gd_scene load_steps=12 format=3 uid="uid://c6gaa4kprawy0"]
 
 [ext_resource type="Script" uid="uid://biopq2aedkgwh" path="res://scripts/npc.gd" id="1_4h4y0"]
 [ext_resource type="Texture2D" uid="uid://barrcryhoe1ep" path="res://assets/Platformer Slimes v1.3/Ogre Slime Spritesheet.png" id="2_ahq63"]
 [ext_resource type="PackedScene" uid="uid://l7oauc6tswy3" path="res://scenes/enemies/detection_radius.tscn" id="3_b58ev"]
+[ext_resource type="PackedScene" uid="uid://c7lyw64bf4nfn" path="res://scenes/hurt_radius.tscn" id="4_b58ev"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbebl"]
 size = Vector2(11, 10)
@@ -66,5 +67,9 @@ frame_progress = 0.10445527
 
 [node name="Detection Radius" parent="." instance=ExtResource("3_b58ev")]
 
+[node name="HurtRadius" parent="." instance=ExtResource("4_b58ev")]
+script = null
+
 [connection signal="body_entered" from="Detection Radius" to="." method="_on_detection_radius_body_entered"]
 [connection signal="body_exited" from="Detection Radius" to="." method="_on_detection_radius_body_exited"]
+[connection signal="body_entered" from="HurtRadius" to="." method="_on_hurt_radius_body_entered"]
