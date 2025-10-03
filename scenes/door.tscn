@@ -81,11 +81,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uvdjg"]
-size = Vector2(16, 16)
-
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uvdjg"]
 polygon = PackedVector2Array(8, -4, 8, -8, -8, -8, -8, -4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uvdjg"]
+size = Vector2(16, 17)
 
 [node name="Door" type="AnimatableBody2D"]
 script = ExtResource("1_hpvv5")
@@ -93,8 +93,16 @@ script = ExtResource("1_hpvv5")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_41c0y")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_uvdjg")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.0399978, 1.0399978)
+shape = SubResource("RectangleShape2D_uvdjg")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_uvdjg")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_uvdjg")
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

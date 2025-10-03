@@ -1,6 +1,6 @@
 extends Node
 
-
+var key = false
 var game_world: GameWorld = null
 
 
