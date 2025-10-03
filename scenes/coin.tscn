@@ -9,7 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jig8b"]
 resource_local_to_scene = true
 shader = ExtResource("2_wnlwo")
-shader_parameter/color = Color(0.7819218, 0.7083258, 0.2478461, 1)
+shader_parameter/color = Color(0.82507616, 0.2147145, 0.2018384, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xmuha"]
 animations = [{

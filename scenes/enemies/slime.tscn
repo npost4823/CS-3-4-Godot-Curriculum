@@ -68,7 +68,6 @@ frame_progress = 0.10445527
 [node name="Detection Radius" parent="." instance=ExtResource("3_b58ev")]
 
 [node name="HurtRadius" parent="." instance=ExtResource("4_b58ev")]
-script = null
 
 [connection signal="body_entered" from="Detection Radius" to="." method="_on_detection_radius_body_entered"]
 [connection signal="body_exited" from="Detection Radius" to="." method="_on_detection_radius_body_exited"]

@@ -52,4 +52,5 @@ func movement(_delta):
 
 
 func _on_hurt_radius_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+	if body is Player:
+		player.take_damage(10)
