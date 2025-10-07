@@ -14,6 +14,6 @@ func set_is_open(is_open: bool) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
-		if Global.key == true:
-			Global.key = false
+		if Global.key > 0:
+			Global.key = Global.key - 1
 			queue_free()
