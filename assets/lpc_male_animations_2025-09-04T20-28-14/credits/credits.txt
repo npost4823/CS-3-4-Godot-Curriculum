@@ -97,4 +97,3 @@ feet/shoes/basic/male/lavender.png
 		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
 		- http://opengameart.org/content/lpc-clothing-updates
 		- https://opengameart.org/content/lpc-expanded-socks-shoes
-
