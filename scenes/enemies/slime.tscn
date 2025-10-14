@@ -65,6 +65,7 @@ autoplay = "idle"
 frame_progress = 0.10445527
 
 [node name="Detection Radius" parent="." instance=ExtResource("3_b58ev")]
+scale = Vector2(3.280002, 3.280002)
 
 [node name="HurtRadius" parent="." instance=ExtResource("4_b58ev")]
 
