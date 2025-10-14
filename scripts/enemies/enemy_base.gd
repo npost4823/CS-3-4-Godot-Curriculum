@@ -3,7 +3,7 @@ class_name enemy_base
 @onready var sprite: Sprite2D = $Sprite2D
 
 
-@export var move_speed: float = 5
+
 
 
 
