@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://cpcjxr26k8tgw"]
+[gd_scene load_steps=15 format=4 uid="uid://cpcjxr26k8tgw"]
 
 [ext_resource type="PackedScene" uid="uid://cqvpxnx2pwqhk" path="res://scenes/player.tscn" id="1_2j8vx"]
 [ext_resource type="Script" uid="uid://bnk74kv0ariww" path="res://scripts/game_world.gd" id="2_3k9wy"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://5p2ev4o8h7si" path="res://scenes/lever.tscn" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://cb60i8jd157k6" path="res://scenes/key.tscn" id="10_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://c6gaa4kprawy0" path="res://scenes/enemies/slime.tscn" id="11_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://itwac34ln74u" path="res://scenes/merchant.tscn" id="13_trceg"]
 
 [sub_resource type="Environment" id="Environment_jyhfs"]
 background_energy_multiplier = 0.1
@@ -98,3 +99,6 @@ grow_vertical = 2
 [node name="slime" parent="." instance=ExtResource("11_ya4ey")]
 position = Vector2(-496, 36)
 move_points = Array[Vector2]([Vector2(-469, 124), Vector2(-324, -19)])
+
+[node name="merchant" parent="." instance=ExtResource("13_trceg")]
+position = Vector2(78, 9)

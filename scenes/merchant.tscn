@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://itwac34ln74u"]
+
+[ext_resource type="Script" uid="uid://dvdsjaixphfmu" path="res://scripts/merchant.gd" id="1_12ke4"]
+[ext_resource type="Texture2D" uid="uid://11hputcgr26e" path="res://assets/merchant.png" id="2_7rnkl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xj0k"]
+size = Vector2(32, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0gj23"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7rnkl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="merchant" type="Area2D"]
+script = ExtResource("1_12ke4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_1xj0k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0gj23")
+
+[node name="Menu" type="Node2D" parent="."]
+visible = false
+
+[node name="Button" type="Button" parent="Menu"]
+offset_left = -32.0
+offset_top = -48.0
+offset_right = 32.0
+offset_bottom = -28.0
+theme_override_font_sizes/font_size = 8
+text = "Buy +2 Health"
+
+[node name="Label" type="Label" parent="Menu"]
+offset_left = -24.0
+offset_top = -72.0
+offset_right = 24.0
+offset_bottom = -49.0
+text = "1 coin"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="pressed" from="Menu/Button" to="." method="_on_button_pressed"]
