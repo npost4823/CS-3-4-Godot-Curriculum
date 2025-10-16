@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://dvdsjaixphfmu" path="res://scripts/merchant.gd" id="1_12ke4"]
 [ext_resource type="Texture2D" uid="uid://11hputcgr26e" path="res://assets/merchant.png" id="2_7rnkl"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xj0k"]
-size = Vector2(32, 56)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_0gj23"]
 animations = [{
 "frames": [{
@@ -17,12 +14,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="merchant" type="Area2D"]
-script = ExtResource("1_12ke4")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12ke4"]
+size = Vector2(32, 64)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
-shape = SubResource("RectangleShape2D_1xj0k")
+[node name="merchant" type="CharacterBody2D"]
+script = ExtResource("1_12ke4")
+move_points = Array[Vector2]([Vector2(78, 9)])
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0gj23")
@@ -45,6 +42,11 @@ offset_right = 24.0
 offset_bottom = -49.0
 text = "1 coin"
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[node name="CollisionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
+shape = SubResource("RectangleShape2D_12ke4")
+
 [connection signal="pressed" from="Menu/Button" to="." method="_on_button_pressed"]
+[connection signal="body_entered" from="CollisionArea" to="." method="_on_collision_area_body_entered"]
+[connection signal="body_exited" from="CollisionArea" to="." method="_on_collision_area_body_exited"]

@@ -1,11 +1,8 @@
-extends Area2D
+extends npc
 @onready var menu: Node2D = $Menu
-@onready var player: Player = %Player
 
 
-func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
-		menu.visible = true
+
 
 
 func _on_button_pressed() -> void:
@@ -14,5 +11,11 @@ func _on_button_pressed() -> void:
 	print("You payed one coin and you got two health. You now have " + str(player.coins) + " coins. You now have " + str(player.health) + " Health.")
 
 
-func _on_body_exited(body: Node2D) -> void:
-	menu.visible = false
+func _on_collision_area_body_entered(body: Node2D) -> void:
+	if body is Player:
+		menu.visible = true
+
+
+func _on_collision_area_body_exited(body: Node2D) -> void:
+	if body is Player:
+		menu.visible = false
