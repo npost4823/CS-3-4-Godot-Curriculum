@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cb60i8jd157k6"]
 
-[ext_resource type="Script" uid="uid://rxq42y2ohpe5" path="res://scenes/key.gd" id="1_fttkb"]
+[ext_resource type="Script" uid="uid://rxq42y2ohpe5" path="res://scripts/key.gd" id="1_fttkb"]
 [ext_resource type="Texture2D" uid="uid://dddcdpi2j4qi0" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/keys/keys_1_1.png" id="1_yk2u2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fttkb"]
