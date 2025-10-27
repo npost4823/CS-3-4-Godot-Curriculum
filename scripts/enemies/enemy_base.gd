@@ -16,7 +16,7 @@ var detection_range: float = 1000.0
 var xp_value: int = 10
 
 # References
-@onready var player: Player = %Player
+var player: Player = null
 var sprite: Node = null
 
 # Contact damage cooldown
@@ -46,13 +46,26 @@ func _ready() -> void:
 	if not sprite:
 		sprite = get_node_or_null("AnimatedSprite2D")
 
+	# Find player in the scene tree
+	_find_player()
+
 	# Load stats from EnemyResource
 	if enemy_data:
 		load_from_resource(enemy_data, 1)  # Wave 1 by default
 
+	# DEBUG: Check if player reference is valid
+	if player:
+		print("Enemy spawned! Player found at position: ", player.global_position)
+	else:
+		print("WARNING: Enemy could not find Player reference!")
+
 
 ## Load enemy stats from an EnemyResource with wave scaling
-func load_from_resource(resource: EnemyResource, wave_number: int) -> void:
+## Returns true if successfully loaded
+func load_from_resource(resource: EnemyResource, wave_number: int) -> bool:
+	if not resource:
+		return false
+
 	enemy_data = resource
 
 	# Get scaled stats based on wave
@@ -74,9 +87,14 @@ func load_from_resource(resource: EnemyResource, wave_number: int) -> void:
 		elif resource.enemy_texture and sprite is Sprite2D:
 			sprite.texture = resource.enemy_texture
 
+	return true
+
 
 func _physics_process(delta: float) -> void:
 	if not player or not is_instance_valid(player):
+		# DEBUG: Print once if player is missing
+		if Engine.get_process_frames() % 60 == 0:  # Print every 60 frames
+			print("Enemy _physics_process: Player reference is invalid!")
 		return
 
 	# Update damage cooldown
@@ -103,6 +121,9 @@ func _physics_process(delta: float) -> void:
 				sprite.flip_h = direction_to_player.x < 0
 			elif sprite is AnimatedSprite2D:
 				sprite.flip_h = direction_to_player.x < 0
+	# DEBUG: Print if enemy is out of range (only occasionally to avoid spam)
+	elif Engine.get_process_frames() % 120 == 0:  # Print every 120 frames
+		print("Enemy is ", distance_to_player, " units away (detection range: ", detection_range, ")")
 
 
 ## Apply separation force to avoid clustering
@@ -125,7 +146,8 @@ func apply_separation(current_direction: Vector2) -> Vector2:
 
 
 ## Take damage from player weapons
-func take_damage(amount: float) -> void:
+## Returns true if this damage killed the enemy
+func take_damage(amount: float) -> bool:
 	current_health -= amount
 
 	# Visual feedback (optional: flash sprite)
@@ -137,10 +159,14 @@ func take_damage(amount: float) -> void:
 
 	if current_health <= 0:
 		die()
+		return true
+
+	return false
 
 
 ## Handle enemy death
-func die() -> void:
+## Returns true if death was handled successfully
+func die() -> bool:
 	# Drop XP
 	if xp_drop_scene and player:
 		var xp_drop = xp_drop_scene.instantiate()
@@ -156,13 +182,15 @@ func die() -> void:
 
 	# Remove enemy
 	queue_free()
+	return true
 
 
 ## Spawn a material drop
-func spawn_material_drop(material_id: String) -> void:
+## Returns true if material was spawned successfully
+func spawn_material_drop(material_id: String) -> bool:
 	if not material_drop_scene:
 		print("Enemy dropped material: " + material_id + " (no scene configured)")
-		return
+		return false
 
 	var drop = material_drop_scene.instantiate()
 	drop.material_id = material_id
@@ -171,6 +199,7 @@ func spawn_material_drop(material_id: String) -> void:
 	get_tree().root.add_child(drop)
 
 	print("Enemy dropped material: " + material_id)
+	return true
 
 
 ## Handle collision with player (contact damage)
@@ -178,3 +207,32 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Player and damage_cooldown <= 0:
 		body.take_damage(contact_damage)
 		damage_cooldown = damage_cooldown_time
+
+
+## Find the player in the scene tree
+func _find_player() -> void:
+	# Try to get player by unique name first
+	player = get_node_or_null("%Player")
+
+	# If that fails, search the scene tree for a Player node
+	if not player:
+		var root = get_tree().root
+		player = _search_for_player(root)
+
+	if not player:
+		print("ERROR: Could not find Player node in scene tree!")
+
+
+## Recursively search for Player node
+func _search_for_player(node: Node) -> Player:
+	# Check if this node is the player
+	if node is Player:
+		return node
+
+	# Search children
+	for child in node.get_children():
+		var found = _search_for_player(child)
+		if found:
+			return found
+
+	return null

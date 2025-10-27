@@ -50,7 +50,11 @@ func craft_recipe(recipe: RecipeResource) -> bool:
 
 
 ## Create the crafted item and add to inventory
-func _create_crafted_item(recipe: RecipeResource) -> void:
+## Returns true if item was created successfully
+func _create_crafted_item(recipe: RecipeResource) -> bool:
+	if not recipe:
+		return false
+
 	# Load the output item Resource
 	# For weapons, add to inventory
 	# Students will expand this to handle different item types
@@ -59,6 +63,8 @@ func _create_crafted_item(recipe: RecipeResource) -> void:
 
 	# TODO: Load the actual weapon resource and add to inventory
 	# This requires a resource database/registry system that students will implement
+
+	return true
 
 
 ## Get all recipes the player can currently craft

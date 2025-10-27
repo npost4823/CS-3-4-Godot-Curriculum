@@ -9,17 +9,20 @@ class_name XPDrop
 @export var attraction_speed: float = 200.0
 @export var collect_range: float = 20.0
 
-var player: Node2D = null
+
 var being_attracted: bool = false
+var player: Player = null
 
 
 func _ready() -> void:
 	# Connect collision signal
 	body_entered.connect(_on_body_entered)
 
-	# Get player reference
-	if Global.game_world and Global.game_world.has("player"):
-		player = Global.game_world.player
+	# Find the player
+	_find_player()
+
+	if not player:
+		print("WARNING: XP Drop could not find Player!")
 
 
 func _process(delta: float) -> void:
@@ -52,3 +55,29 @@ func collect() -> void:
 	if player and player.has_method("gain_experience"):
 		player.gain_experience(xp_amount)
 	queue_free()
+
+
+## Find the player in the scene tree
+func _find_player() -> void:
+	# Try to get player by unique name first
+	player = get_node_or_null("%Player")
+
+	# If that fails, search the scene tree for a Player node
+	if not player:
+		var root = get_tree().root
+		player = _search_for_player(root)
+
+
+## Recursively search for Player node
+func _search_for_player(node: Node) -> Player:
+	# Check if this node is the player
+	if node is Player:
+		return node
+
+	# Search children
+	for child in node.get_children():
+		var found = _search_for_player(child)
+		if found:
+			return found
+
+	return null

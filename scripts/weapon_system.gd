@@ -65,9 +65,10 @@ func _find_nearest_enemy() -> Node2D:
 
 
 ## Fire the equipped weapon
-func _fire_weapon(direction: Vector2) -> void:
+## Returns true if weapon was fired successfully
+func _fire_weapon(direction: Vector2) -> bool:
 	if not equipped_weapon or not projectile_scene:
-		return
+		return false
 
 	# Calculate spread based on accuracy
 	var spread_rad = deg_to_rad(equipped_weapon.accuracy_spread)
@@ -101,17 +102,27 @@ func _fire_weapon(direction: Vector2) -> void:
 
 	# Reset cooldown
 	fire_cooldown = equipped_weapon.get_fire_cooldown()
+	return true
 
 
 ## Equip a new weapon by loading a ProjectileWeaponResource
-func equip_weapon(weapon: ProjectileWeaponResource) -> void:
+## Returns true if weapon was equipped successfully
+func equip_weapon(weapon: ProjectileWeaponResource) -> bool:
+	if not weapon:
+		return false
+
 	equipped_weapon = weapon
 	_update_weapon_visuals()
 	fire_cooldown = 0.0  # Reset cooldown when switching weapons
+	return true
 
 
 ## Update the visual representation of the weapon
-func _update_weapon_visuals() -> void:
-	if equipped_weapon and weapon_sprite:
-		weapon_sprite.texture = equipped_weapon.weapon_sprite
-		weapon_sprite.offset = equipped_weapon.hold_offset
+## Returns true if visuals were updated successfully
+func _update_weapon_visuals() -> bool:
+	if not equipped_weapon or not weapon_sprite:
+		return false
+
+	weapon_sprite.texture = equipped_weapon.weapon_sprite
+	weapon_sprite.offset = equipped_weapon.hold_offset
+	return true

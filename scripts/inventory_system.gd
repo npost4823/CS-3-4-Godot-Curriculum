@@ -18,7 +18,11 @@ var equipped_weapon: WeaponResource = null
 
 
 ## Add a material to inventory
-func add_material(material_id: String, amount: int = 1) -> void:
+## Returns true if material was added successfully
+func add_material(material_id: String, amount: int = 1) -> bool:
+	if material_id == "" or amount <= 0:
+		return false
+
 	if materials.has(material_id):
 		materials[material_id] += amount
 	else:
@@ -26,6 +30,7 @@ func add_material(material_id: String, amount: int = 1) -> void:
 
 	print("Added " + str(amount) + "x " + material_id)
 	inventory_changed.emit()
+	return true
 
 
 ## Remove materials from inventory
@@ -47,17 +52,27 @@ func get_material_count(material_id: String) -> int:
 
 
 ## Add a weapon to inventory
-func add_weapon(weapon: WeaponResource) -> void:
+## Returns true if weapon was added successfully
+func add_weapon(weapon: WeaponResource) -> bool:
+	if not weapon:
+		return false
+
 	weapons.append(weapon)
 	print("Acquired weapon: " + weapon.item_name)
 	inventory_changed.emit()
+	return true
 
 
 ## Equip a weapon
-func equip_weapon(weapon: WeaponResource) -> void:
+## Returns true if weapon was equipped successfully
+func equip_weapon(weapon: WeaponResource) -> bool:
+	if not weapon:
+		return false
+
 	equipped_weapon = weapon
 	print("Equipped: " + weapon.item_name)
 	inventory_changed.emit()
+	return true
 
 
 ## Check if player has required materials for a recipe

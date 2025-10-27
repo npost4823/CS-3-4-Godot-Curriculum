@@ -7,7 +7,8 @@ class_name MaterialDrop
 @export var material_id: String = "iron_ore"
 @export var amount: int = 1
 
-var player: Node2D = null
+var player: Player = null
+
 var being_attracted: bool = false
 var attraction_range: float = 100.0
 var attraction_speed: float = 150.0
@@ -18,10 +19,11 @@ func _ready() -> void:
 	# Connect collision signal
 	body_entered.connect(_on_body_entered)
 
-	# Get player reference
-	if Global.game_world and Global.game_world.has("player"):
-		player = Global.game_world.player
+	# Find the player
+	_find_player()
 
+	if not player:
+		print("WARNING: Material Drop could not find Player!")
 
 func _process(delta: float) -> void:
 	if not player or not is_instance_valid(player):
@@ -55,3 +57,29 @@ func collect() -> void:
 		print("Collected " + str(amount) + "x " + material_id)
 
 	queue_free()
+
+
+## Find the player in the scene tree
+func _find_player() -> void:
+	# Try to get player by unique name first
+	player = get_node_or_null("%Player")
+
+	# If that fails, search the scene tree for a Player node
+	if not player:
+		var root = get_tree().root
+		player = _search_for_player(root)
+
+
+## Recursively search for Player node
+func _search_for_player(node: Node) -> Player:
+	# Check if this node is the player
+	if node is Player:
+		return node
+
+	# Search children
+	for child in node.get_children():
+		var found = _search_for_player(child)
+		if found:
+			return found
+
+	return null

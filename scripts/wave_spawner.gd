@@ -46,9 +46,10 @@ func _process(delta: float) -> void:
 
 
 ## Spawn a single enemy at a random position around the player
-func spawn_enemy() -> void:
+## Returns true if enemy was spawned successfully
+func spawn_enemy() -> bool:
 	if not enemy_scene or not player:
-		return
+		return false
 
 	# Calculate spawn position (random point in ring around player)
 	var angle = randf() * TAU
@@ -67,16 +68,20 @@ func spawn_enemy() -> void:
 	get_tree().root.add_child(enemy_instance)
 
 	enemies_spawned_this_wave += 1
+	return true
 
 
 ## Progress to next wave
-func advance_wave() -> void:
+## Returns true when wave is advanced
+func advance_wave() -> bool:
 	current_wave += 1
 	enemies_spawned_this_wave = 0
 
 	print("========== WAVE " + str(current_wave) + " ==========")
 	print("Enemy health and damage increased!")
 	print("Spawn rate increased!")
+
+	return true
 
 
 ## Get spawn speed multiplier based on current wave
