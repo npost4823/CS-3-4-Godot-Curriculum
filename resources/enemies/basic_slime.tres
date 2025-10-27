@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyResource" load_steps=2 format=3 uid="uid://d3yxp7k2mqt6n"]
+
+[ext_resource type="Script" path="res://scripts/resources/enemy_resource.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+enemy_id = "basic_slime"
+enemy_name = "Basic Slime"
+enemy_texture = null
+animated_frames = null
+max_health = 30.0
+contact_damage = 5.0
+move_speed = 80.0
+detection_range = 800.0
+xp_value = 10
+material_drop_chance = 0.3
+possible_drops = ["iron_ore"]
+drop_amount = 1
+uses_separation = true
+separation_distance = 30.0
+can_attack = false
+unlock_wave = 1
+spawn_weight = 10

@@ -4,17 +4,21 @@ class_name GameWorld
 # Player reference - our main character
 @onready var player = $Player
 
-# Test objects for character methods
-@onready var spike = $Spike
-@onready var health_potion = $HealthPotion
+# System references
+var inventory: InventorySystem = null
 
 func _ready():
+	# Set global reference so other systems can find us
+	Global.game_world = self
+
+	# Get inventory system reference
+	inventory = get_node_or_null("InventorySystem")
+
 	print("=== GAME WORLD LOADED ===")
 	print("Use arrow keys or WASD to move the player")
-	print("Touch the RED spike to take damage")
-	print("Touch the GREEN potion to heal")
+	print("Enemies will spawn automatically!")
 	print("Press SPACE for debug info")
-	print("Press ENTER to gain experience")
+	print("Press ENTER to gain experience (testing)")
 	print("========================")
 
 func _unhandled_input(event):

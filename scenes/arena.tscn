@@ -1,0 +1,40 @@
+[gd_scene load_steps=12 format=3 uid="uid://cxvnak5nqpr8a"]
+
+[ext_resource type="Script" uid="uid://bnk74kv0ariww" path="res://scripts/game_world.gd" id="1_game_world"]
+[ext_resource type="TileSet" uid="uid://wio17aw1fnr2" path="res://tilesets/dungeon.tres" id="2_tileset"]
+[ext_resource type="PackedScene" uid="uid://cqvpxnx2pwqhk" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://bvlan3m8qpr0k" path="res://scenes/weapon_system.tscn" id="4_weapon"]
+[ext_resource type="PackedScene" uid="uid://c8wk4n6mqpr3m" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://fjrkobe6iwdw" path="res://scenes/ui/level_up_ui.tscn" id="6_levelup"]
+[ext_resource type="Script" uid="uid://c0j86ysrsp8s8" path="res://scripts/wave_spawner.gd" id="7_spawner"]
+[ext_resource type="PackedScene" uid="uid://c6gaa4kprawy0" path="res://scenes/enemies/slime.tscn" id="8_enemy"]
+[ext_resource type="Script" uid="uid://dxm2rlafo13yf" path="res://scripts/inventory_system.gd" id="9_inventory"]
+[ext_resource type="PackedScene" uid="uid://6jsmpdf6iwex" path="res://scenes/ui/inventory_ui.tscn" id="10_inventory_ui"]
+[ext_resource type="PackedScene" uid="uid://b7ksnp3g6iwfy" path="res://scenes/ui/crafting_ui.tscn" id="11_crafting_ui"]
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_game_world")
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+unique_name_in_owner = true
+position = Vector2(640, 380)
+
+[node name="WeaponSystem" parent="Player" instance=ExtResource("4_weapon")]
+
+[node name="WaveSpawner" type="Node2D" parent="."]
+script = ExtResource("7_spawner")
+enemy_scene = ExtResource("8_enemy")
+
+[node name="InventorySystem" type="Node" parent="."]
+script = ExtResource("9_inventory")
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="LevelUpUI" parent="." instance=ExtResource("6_levelup")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("10_inventory_ui")]
+
+[node name="CraftingUI" parent="." instance=ExtResource("11_crafting_ui")]

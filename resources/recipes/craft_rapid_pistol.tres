@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RecipeResource" load_steps=3 format=3 uid="uid://b9vmk4w7npr8i"]
+
+[ext_resource type="Script" path="res://scripts/resources/recipe_resource.gd" id="1_recipe"]
+[ext_resource type="Texture2D" uid="uid://dggbbtfuhbglf" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/arrow/Just_arrow.png" id="2_result_icon"]
+
+[resource]
+script = ExtResource("1_recipe")
+recipe_id = "craft_rapid_pistol"
+recipe_name = "Craft Rapid Pistol"
+recipe_category = "Weapon Upgrade"
+required_materials = {
+"iron_ore": 3,
+"magic_essence": 1
+}
+output_item_id = "rapid_pistol"
+output_quantity = 1
+min_crafting_level = 1
+result_icon = ExtResource("2_result_icon")
