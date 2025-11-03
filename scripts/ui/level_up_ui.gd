@@ -22,12 +22,12 @@ class_name LevelUpUI
 ## Available upgrade resources
 ## Add more .tres files here as students create them
 ## NOTE: Array type will show as Array[StatUpgradeResource] once Godot rescans the project
-@export var available_upgrades: Array = [StatUpgradeResource]
+@export var available_upgrades: Array[StatUpgradeResource] = [] 
 
 
 func _ready() -> void:
-	# Load default upgrade if array is empty
-	
+	print("Array size: ", available_upgrades.size())
+	print("Array contents: ", available_upgrades)
 
 	player.level_up.connect(_on_player_level_up)
 

@@ -6,7 +6,13 @@
 script = ExtResource("1_enemy")
 enemy_id = "basic_slime"
 enemy_name = "Basic Slime"
-max_health = 30.0
+max_health = 60.0
 contact_damage = 5.0
 move_speed = 80.0
 detection_range = 800.0
+xp_value = 10
+uses_separation = true
+separation_distance = 30.0
+unlock_wave = 1
+spawn_weight = 10
+credit_cost = 10

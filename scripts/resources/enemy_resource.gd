@@ -52,6 +52,9 @@ class_name EnemyResource
 ## How common is this enemy in spawns? (higher = more common)
 @export var spawn_weight: int = 10
 
+## Credit cost to spawn this enemy (higher = more expensive/powerful)
+@export var credit_cost: int = 10
+
 
 ## Calculate actual stats based on wave difficulty scaling
 func get_scaled_stats(wave_number: int) -> Dictionary:

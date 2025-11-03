@@ -1,7 +1,44 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqems63ld323y"]
+[gd_scene load_steps=9 format=3 uid="uid://dv14m5ji5w7k0"]
 
-[ext_resource type="Script" uid="uid://draxyi2yul4g2" path="res://scripts/health_potion.gd" id="1_np0hw"]
 [ext_resource type="Texture2D" uid="uid://udxnr5kddbr5" path="res://assets/2D Pixel Dungeon Asset Pack/character and tileset/demonstration.png" id="2_gan2x"]
+
+[sub_resource type="GDScript" id="GDScript_1dg5g"]
+script/source = "extends Area2D
+class_name HealthPotion
+
+# Healing properties
+@export var heal_amount: int = 30
+@export var auto_pickup: bool = true
+
+func _ready():
+	print(\"Health Potion created - heals \" + str(heal_amount) + \" HP\")
+	# Connect the collision signal
+	body_entered.connect(_on_body_entered)
+
+func _on_body_entered(body):
+	# Check if it's the player
+	if body is Player:
+		print(\"Player found health potion!\")
+		
+		# Try to heal the player (will work once they add heal method)
+		if body.has_method(\"heal\"):
+			body.heal(heal_amount)
+			print(\"Player healed for \" + str(heal_amount) + \" HP!\")
+			
+			# Remove the potion after use
+			if auto_pickup:
+				$AnimationPlayer.play(\"disappear\")
+		else:
+			print(\"Player doesn't have heal() method yet - coming in Lesson 2!\")
+
+func use_potion(player: Player):
+	\"\"\"Alternative method for manual potion use\"\"\"
+	if player.has_method(\"heal\"):
+		player.heal(heal_amount)
+		$AnimationPlayer.play(\"disappear\")
+		return true
+	return false
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1nwoc"]
 atlas = ExtResource("2_gan2x")
@@ -97,7 +134,7 @@ _data = {
 }
 
 [node name="HealthPotion" type="Area2D"]
-script = ExtResource("1_np0hw")
+script = SubResource("GDScript_1dg5g")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_mlk75")

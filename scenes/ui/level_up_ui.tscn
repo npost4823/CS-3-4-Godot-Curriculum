@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://d9xm5p7nqpr4o"]
+[gd_scene load_steps=2 format=3 uid="uid://fjrkobe6iwdw"]
 
-[ext_resource type="Script" path="res://scripts/ui/level_up_ui.gd" id="1_levelup"]
+[ext_resource type="Script" uid="uid://biwpb77fhxutr" path="res://scripts/ui/level_up_ui.gd" id="1_levelup"]
 
 [node name="LevelUpUI" type="CanvasLayer"]
 process_mode = 3
