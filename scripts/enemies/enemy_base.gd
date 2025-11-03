@@ -26,12 +26,6 @@ var damage_cooldown_time: float = 1.0
 # XP drop scene
 @export var xp_drop_scene: PackedScene
 
-# Material drop scene
-@export var material_drop_scene: PackedScene
-
-# Material drop scenes (loaded at runtime)
-var material_scenes: Dictionary = {}
-
 
 func _ready() -> void:
 	# Add to enemies group for targeting
@@ -174,31 +168,8 @@ func die() -> bool:
 		xp_drop.global_position = global_position
 		get_tree().root.add_child(xp_drop)
 
-	# Drop materials
-	if enemy_data:
-		var drops = enemy_data.roll_drops()
-		for material_id in drops:
-			spawn_material_drop(material_id)
-
 	# Remove enemy
 	queue_free()
-	return true
-
-
-## Spawn a material drop
-## Returns true if material was spawned successfully
-func spawn_material_drop(material_id: String) -> bool:
-	if not material_drop_scene:
-		print("Enemy dropped material: " + material_id + " (no scene configured)")
-		return false
-
-	var drop = material_drop_scene.instantiate()
-	drop.material_id = material_id
-	drop.amount = 1
-	drop.global_position = global_position
-	get_tree().root.add_child(drop)
-
-	print("Enemy dropped material: " + material_id)
 	return true
 
 

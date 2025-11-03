@@ -5,14 +5,14 @@ class_name GameWorld
 @onready var player = $Player
 
 # System references
-var inventory: InventorySystem = null
+# var inventory: InventorySystem = null
 
 func _ready():
 	# Set global reference so other systems can find us
 	Global.game_world = self
 
-	# Get inventory system reference
-	inventory = get_node_or_null("InventorySystem")
+	# Get inventory system reference (commented out - inventory system not currently active)
+	# inventory = get_node_or_null("InventorySystem")
 
 	print("=== GAME WORLD LOADED ===")
 	print("Use arrow keys or WASD to move the player")

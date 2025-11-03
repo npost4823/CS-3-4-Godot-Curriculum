@@ -2,8 +2,15 @@ extends CanvasLayer
 class_name LevelUpUI
 
 ## UI shown when player levels up
-## Allows player to choose one stat upgrade
+## Allows player to choose one stat upgrade from available upgrade resources
 ## Game pauses while this UI is shown
+##
+## TEACHING NOTE: This system uses Resources to define upgrades!
+## Students can create new upgrades by:
+## 1. Right-clicking in resources/upgrades/ folder
+## 2. Creating a new StatUpgradeResource
+## 3. Configuring the upgrade properties
+## 4. Adding the resource path to available_upgrades array below
 
 @onready var panel: Panel = $Panel
 @onready var title_label: Label = $Panel/MarginContainer/VBoxContainer/TitleLabel
@@ -12,23 +19,23 @@ class_name LevelUpUI
 @onready var player: Player = %Player
 
 
-# Stat upgrade options
-var stat_upgrades = [
-	{"name": "Max Health +20", "stat": "health", "amount": 20.0, "description": "Increases your maximum health"},
-	{"name": "Movement Speed +30", "stat": "speed", "amount": 30.0, "description": "Move faster to dodge enemies"},
-	{"name": "Accuracy +0.2x", "stat": "accuracy", "amount": 0.2, "description": "Reduces weapon spread"},
-	{"name": "Carry Capacity +1", "stat": "carry", "amount": 1, "description": "Equip heavier weapons or dual wield"},
-	{"name": "Crafting Efficiency +0.3x", "stat": "crafting", "amount": 0.3, "description": "Reduces materials needed for recipes"}
-]
+## Available upgrade resources
+## Add more .tres files here as students create them
+@export var available_upgrades: Array[StatUpgradeResource] = []
 
 
 func _ready() -> void:
-	# Get player reference
-	
+	# Load default upgrade if array is empty
+	if available_upgrades.is_empty():
+		var default_upgrade = load("res://resources/upgrades/health_upgrade.tres")
+		if default_upgrade:
+			available_upgrades.append(default_upgrade)
+
 	player.level_up.connect(_on_player_level_up)
 
 	# Hide by default
 	hide()
+
 
 
 func _on_player_level_up(new_level: int) -> void:
@@ -47,39 +54,30 @@ func show_upgrade_options(level: int) -> void:
 	for child in options_container.get_children():
 		child.queue_free()
 
-	# Pick 3 random upgrades to offer
-	var offered_upgrades = stat_upgrades.duplicate()
+	# Pick up to 3 random upgrades to offer (or all if less than 3)
+	var offered_upgrades = available_upgrades.duplicate()
 	offered_upgrades.shuffle()
-	offered_upgrades = offered_upgrades.slice(0, 3)
+	var num_to_offer = min(3, offered_upgrades.size())
+	offered_upgrades = offered_upgrades.slice(0, num_to_offer)
 
-	# Create buttons for each option
-	for upgrade in offered_upgrades:
+	# Create buttons for each upgrade resource
+	for upgrade_resource in offered_upgrades:
 		var button = Button.new()
-		button.text = upgrade["name"] + "\n" + upgrade["description"]
+		button.text = upgrade_resource.get_display_text()
 		button.custom_minimum_size = Vector2(400, 60)
-		button.pressed.connect(_on_upgrade_selected.bind(upgrade))
+		button.pressed.connect(_on_upgrade_selected.bind(upgrade_resource))
 		options_container.add_child(button)
 
 	show()
 
 
 ## Handle when player selects an upgrade
-func _on_upgrade_selected(upgrade: Dictionary) -> void:
-	if not player:
+func _on_upgrade_selected(upgrade: StatUpgradeResource) -> void:
+	if not player or not upgrade:
 		return
 
-	# Apply the upgrade
-	match upgrade["stat"]:
-		"health":
-			player.upgrade_health(upgrade["amount"])
-		"speed":
-			player.upgrade_speed(upgrade["amount"])
-		"accuracy":
-			player.upgrade_accuracy(upgrade["amount"])
-		"carry":
-			player.upgrade_carry_capacity(int(upgrade["amount"]))
-		"crafting":
-			player.upgrade_crafting_efficiency(upgrade["amount"])
+	# Apply the upgrade using the resource's method
+	upgrade.apply_to_player(player)
 
 	# Hide UI and unpause
 	hide()

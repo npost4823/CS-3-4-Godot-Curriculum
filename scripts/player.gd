@@ -26,7 +26,6 @@ var xp_to_next_level: float = 100.0
 var base_move_speed: float = 200.0  # Keep track of base speed
 var accuracy_bonus: float = 1.0  # Multiplier for weapon accuracy (higher = more accurate)
 var carry_capacity: int = 1  # How many heavy weapons can be carried
-var crafting_efficiency: float = 1.0  # Reduces material costs (1.0 = normal, 2.0 = 50% reduction)
 
 # Signals for UI updates
 signal health_changed(new_health: float, max_health: float)
@@ -203,14 +202,6 @@ func upgrade_health(amount: float) -> bool:
 func upgrade_carry_capacity(amount: int) -> bool:
 	carry_capacity += amount
 	print("Carry capacity increased! Can now carry " + str(carry_capacity) + " heavy weapons")
-	return true
-
-
-## Upgrade crafting efficiency
-## Returns true on successful upgrade
-func upgrade_crafting_efficiency(amount: float) -> bool:
-	crafting_efficiency += amount
-	print("Crafting efficiency increased! Bonus: " + str(crafting_efficiency))
 	return true
 
 

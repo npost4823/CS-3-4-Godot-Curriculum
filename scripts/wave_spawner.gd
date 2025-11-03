@@ -53,7 +53,9 @@ func spawn_enemy() -> bool:
 
 	# Calculate spawn position (random point in ring around player)
 	var angle = randf() * TAU
+	#pick a random float between min and max spawn radius
 	var distance = randf_range(spawn_radius_min, spawn_radius_max)
+	
 	var spawn_offset = Vector2(cos(angle), sin(angle)) * distance
 	var spawn_pos = player.global_position + spawn_offset
 

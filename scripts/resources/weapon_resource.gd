@@ -1,9 +1,34 @@
-extends ItemResource
+extends Resource
 class_name WeaponResource
 
 ## Base class for all weapons
-## Weapons are items that can be equipped and used in combat
+## Weapons can be equipped and used in combat
 ## This class is extended by specialized weapon types like ProjectileWeaponResource
+
+@export_group("Item Identity")
+## Unique identifier for this weapon
+@export var item_id: String = ""
+
+## Display name for this weapon
+@export var item_name: String = "Unknown Weapon"
+
+## Description of this weapon
+@export var description: String = ""
+
+## Icon for this weapon
+@export var icon: Texture2D
+
+## Can this item be stacked?
+@export var stackable: bool = false
+
+## Maximum stack size if stackable
+@export var max_stack_size: int = 1
+
+## Item rarity (Common, Uncommon, Rare, Epic, Legendary)
+@export var rarity: String = "Common"
+
+## Gold value of this item
+@export var value: int = 0
 
 @export_group("Weapon Stats")
 ## Base damage dealt by this weapon

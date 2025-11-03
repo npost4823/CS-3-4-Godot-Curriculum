@@ -35,15 +35,6 @@ class_name EnemyResource
 ## Base XP awarded when killed
 @export var xp_value: int = 10
 
-## Chance to drop materials (0.0 to 1.0)
-@export var material_drop_chance: float = 0.3
-
-## What materials can this enemy drop? (array of material_ids)
-@export var possible_drops: Array[String] = []
-
-## How many materials drop (if drop succeeds)
-@export_range(1, 5) var drop_amount: int = 1
-
 @export_group("Behavior Properties")
 ## Does this enemy avoid getting too close to other enemies?
 @export var uses_separation: bool = true
@@ -72,18 +63,3 @@ func get_scaled_stats(wave_number: int) -> Dictionary:
 		"move_speed": move_speed * min(1.5, 1.0 + (wave_number - 1) * 0.05),  # Speed caps at 1.5x
 		"xp_value": int(xp_value * wave_multiplier)
 	}
-
-
-## Roll for material drops and return what dropped
-func roll_drops() -> Array[String]:
-	var drops: Array[String] = []
-
-	if randf() <= material_drop_chance and possible_drops.size() > 0:
-		# Pick a random material from possible drops
-		var drop_material = possible_drops.pick_random()
-
-		# Add it multiple times based on drop_amount
-		for i in range(drop_amount):
-			drops.append(drop_material)
-
-	return drops
