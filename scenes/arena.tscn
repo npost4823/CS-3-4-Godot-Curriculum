@@ -32,3 +32,4 @@ script = ExtResource("9_inventory")
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 
 [node name="LevelUpUI" parent="." instance=ExtResource("6_levelup")]
+available_upgrades = [null]

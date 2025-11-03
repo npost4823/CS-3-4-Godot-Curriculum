@@ -21,15 +21,13 @@ class_name LevelUpUI
 
 ## Available upgrade resources
 ## Add more .tres files here as students create them
-@export var available_upgrades: Array[StatUpgradeResource] = []
+## NOTE: Array type will show as Array[StatUpgradeResource] once Godot rescans the project
+@export var available_upgrades: Array = [StatUpgradeResource]
 
 
 func _ready() -> void:
 	# Load default upgrade if array is empty
-	if available_upgrades.is_empty():
-		var default_upgrade = load("res://resources/upgrades/health_upgrade.tres")
-		if default_upgrade:
-			available_upgrades.append(default_upgrade)
+	
 
 	player.level_up.connect(_on_player_level_up)
 
@@ -72,11 +70,12 @@ func show_upgrade_options(level: int) -> void:
 
 
 ## Handle when player selects an upgrade
-func _on_upgrade_selected(upgrade: StatUpgradeResource) -> void:
+func _on_upgrade_selected(upgrade) -> void:
 	if not player or not upgrade:
 		return
 
 	# Apply the upgrade using the resource's method
+	# upgrade should be a StatUpgradeResource
 	upgrade.apply_to_player(player)
 
 	# Hide UI and unpause
