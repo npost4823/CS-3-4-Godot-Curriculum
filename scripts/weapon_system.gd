@@ -93,9 +93,13 @@ func _fire_weapon(direction: Vector2) -> bool:
 		projectile_instance.direction = final_direction
 		projectile_instance.global_position = fire_point.global_position
 
-		# Pass weapon data to projectile
-		var projectile_data = equipped_weapon.get_projectile_data()
-		projectile_instance.setup(projectile_data)
+		# Pass projectile resource to projectile
+		if equipped_weapon.projectile_config:
+			projectile_instance.setup(equipped_weapon.projectile_config)
+		else:
+			push_error("Weapon has no projectile_config set!")
+			projectile_instance.queue_free()
+			continue
 
 		# Add to scene
 		get_tree().root.add_child(projectile_instance)

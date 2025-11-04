@@ -3,14 +3,21 @@ class_name WaveSpawner
 
 ## Manages enemy spawning in waves for Vampire Survivors-style gameplay
 ## Spawns enemies continuously with increasing difficulty
+##
+## TEACHING NOTE: This uses a template-based enemy system!
+## - enemy_scene should point to scenes/enemies/enemy.tscn (generic template)
+## - The template is instantiated, then configured using an EnemyResource
+## - Students create new enemy types by creating new .tres resource files
+## - No need to create new enemy scene files!
 
-## Base enemy scene (should have EnemyBase script attached)
+## Base enemy scene template (scenes/enemies/enemy.tscn)
 @export var enemy_scene: PackedScene
 
 ## Available enemy types to spawn (configured via EnemyResource)
 ## The spawner will randomly select from available enemies based on:
 ## - unlock_wave: Only spawn enemies unlocked for current wave
 ## - spawn_weight: Higher weight = more common
+## - credit_cost: More expensive enemies are stronger
 @export var available_enemies: Array[EnemyResource] = []
 
 @export var spawn_radius_min: float = 400.0
@@ -84,7 +91,6 @@ func attempt_spawn_enemy() -> bool:
 	var affordable_enemies = get_affordable_enemies(available_for_wave)
 
 	if affordable_enemies.is_empty():
-		print("Not enough credits. Current: ", snappedf(current_credits, 0.1), " - Cheapest available: ", get_cheapest_enemy_cost(available_for_wave))
 		return false
 
 	# Pick random enemy based on spawn weight
@@ -98,10 +104,7 @@ func attempt_spawn_enemy() -> bool:
 		return false
 
 	# Deduct credits
-	var credits_before = current_credits
 	current_credits -= chosen_enemy_resource.credit_cost
-
-	print("SPAWNING: ", chosen_enemy_resource.enemy_name, " | Cost: ", chosen_enemy_resource.credit_cost, " | Credits: ", snappedf(credits_before, 0.1), " -> ", snappedf(current_credits, 0.1))
 
 	# Calculate spawn position (random point in ring around player)
 	var angle = randf() * TAU
@@ -111,13 +114,18 @@ func attempt_spawn_enemy() -> bool:
 
 	# Instance enemy
 	var enemy_instance = enemy_scene.instantiate()
+	enemy_instance.global_position = spawn_pos
 
-	# Load the chosen resource with wave scaling
+	# Add enemy to the scene tree FIRST so @onready variables initialize
+	get_parent().add_child(enemy_instance)
+
+	# Set the player reference directly (since %Player doesn't work for runtime-instantiated nodes)
+	if enemy_instance.has_method("set") and player:
+		enemy_instance.player = player
+
+	# Now load the chosen resource with wave scaling (after _ready() has run)
 	if enemy_instance.has_method("load_from_resource"):
 		enemy_instance.load_from_resource(chosen_enemy_resource, current_wave)
-
-	enemy_instance.global_position = spawn_pos
-	get_tree().root.add_child(enemy_instance)
 
 	enemies_spawned_this_wave += 1
 	return true

@@ -2,8 +2,11 @@ extends CharacterBody2D
 class_name EnemyBase
 
 ## Base class for all enemies
-## Enemies use EnemyResource to load their stats and behavior
-## This allows students to create different enemy types by just changing the Resource
+## Works with scenes/enemies/enemy.tscn (generic template)
+## The WaveSpawner instantiates the template and calls load_from_resource()
+## This allows students to create different enemy types by creating new EnemyResource files
+
+## Just create a new EnemyResource .tres file with different stats, texture, and behavior
 
 @export var enemy_data: EnemyResource
 
@@ -16,6 +19,8 @@ var detection_range: float = 1000.0
 var xp_value: int = 10
 
 # References
+## Player reference - set by WaveSpawner when enemy is spawned
+## Note: %Player doesn't work for runtime-instantiated nodes, so WaveSpawner sets this directly
 var player: Player = null
 var sprite: Node = null
 
@@ -40,18 +45,8 @@ func _ready() -> void:
 	if not sprite:
 		sprite = get_node_or_null("AnimatedSprite2D")
 
-	# Find player in the scene tree
-	_find_player()
-
-	# Load stats from EnemyResource
-	if enemy_data:
-		load_from_resource(enemy_data, 1)  # Wave 1 by default
-
-	# DEBUG: Check if player reference is valid
-	if player:
-		print("Enemy spawned! Player found at position: ", player.global_position)
-	else:
-		print("WARNING: Enemy could not find Player reference!")
+	# WaveSpawner will call load_from_resource() after _ready() runs
+	# So we don't need to load anything here
 
 
 ## Load enemy stats from an EnemyResource with wave scaling
@@ -63,32 +58,29 @@ func load_from_resource(resource: EnemyResource, wave_number: int) -> bool:
 	enemy_data = resource
 
 	# Get scaled stats based on wave
-	var scaled_stats = resource.get_scaled_stats(wave_number)
-
-	max_health = scaled_stats["max_health"]
+	max_health = resource.get_scaled_health(wave_number)
 	current_health = max_health
-	contact_damage = scaled_stats["contact_damage"]
-	move_speed = scaled_stats["move_speed"]
-	xp_value = scaled_stats["xp_value"]
+	contact_damage = resource.get_scaled_damage(wave_number)
+	move_speed = resource.get_scaled_speed(wave_number)
+	xp_value = resource.get_scaled_xp(wave_number)
 
 	detection_range = resource.detection_range
 
-	# Set visual
+	# Set visual (sprite is already set in _ready())
 	if sprite:
 		if resource.animated_frames and sprite is AnimatedSprite2D:
 			sprite.sprite_frames = resource.animated_frames
+			sprite.scale = Vector2(resource.sprite_scale, resource.sprite_scale)
 			sprite.play("idle")
 		elif resource.enemy_texture and sprite is Sprite2D:
 			sprite.texture = resource.enemy_texture
+			sprite.scale = Vector2(resource.sprite_scale, resource.sprite_scale)
 
 	return true
 
 
 func _physics_process(delta: float) -> void:
 	if not player or not is_instance_valid(player):
-		# DEBUG: Print once if player is missing
-		if Engine.get_process_frames() % 60 == 0:  # Print every 60 frames
-			print("Enemy _physics_process: Player reference is invalid!")
 		return
 
 	# Update damage cooldown
@@ -115,9 +107,6 @@ func _physics_process(delta: float) -> void:
 				sprite.flip_h = direction_to_player.x < 0
 			elif sprite is AnimatedSprite2D:
 				sprite.flip_h = direction_to_player.x < 0
-	# DEBUG: Print if enemy is out of range (only occasionally to avoid spam)
-	elif Engine.get_process_frames() % 120 == 0:  # Print every 120 frames
-		print("Enemy is ", distance_to_player, " units away (detection range: ", detection_range, ")")
 
 
 ## Apply separation force to avoid clustering
@@ -166,7 +155,8 @@ func die() -> bool:
 		var xp_drop = xp_drop_scene.instantiate()
 		xp_drop.xp_amount = xp_value
 		xp_drop.global_position = global_position
-		get_tree().root.add_child(xp_drop)
+		# Add to parent scene so it can access %Player unique name
+		get_parent().add_child(xp_drop)
 
 	# Remove enemy
 	queue_free()
@@ -178,32 +168,3 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Player and damage_cooldown <= 0:
 		body.take_damage(contact_damage)
 		damage_cooldown = damage_cooldown_time
-
-
-## Find the player in the scene tree
-func _find_player() -> void:
-	# Try to get player by unique name first
-	player = get_node_or_null("%Player")
-
-	# If that fails, search the scene tree for a Player node
-	if not player:
-		var root = get_tree().root
-		player = _search_for_player(root)
-
-	if not player:
-		print("ERROR: Could not find Player node in scene tree!")
-
-
-## Recursively search for Player node
-func _search_for_player(node: Node) -> Player:
-	# Check if this node is the player
-	if node is Player:
-		return node
-
-	# Search children
-	for child in node.get_children():
-		var found = _search_for_player(child)
-		if found:
-			return found
-
-	return null

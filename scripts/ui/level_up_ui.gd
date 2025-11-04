@@ -8,9 +8,15 @@ class_name LevelUpUI
 ## TEACHING NOTE: This system uses Resources to define upgrades!
 ## Students can create new upgrades by:
 ## 1. Right-clicking in resources/upgrades/ folder
-## 2. Creating a new StatUpgradeResource
-## 3. Configuring the upgrade properties
-## 4. Adding the resource path to available_upgrades array below
+## 2. Create a new Resource and select StatUpgradeResource
+## 3. Configure the upgrade properties (name, description, stat_type, amount)
+## 4. Add the resource to the available_upgrades array in the level_up_ui scene
+##
+## To add NEW upgrade types (e.g., damage, fire rate):
+## 1. Add the stat type to UpgradeType enum in stat_upgrade_resource.gd
+## 2. Add an upgrade_xxx() method to player.gd (see upgrade_health as example)
+## 3. Add the new case to the match statement in stat_upgrade_resource.gd apply_to_player()
+
 
 @onready var panel: Panel = $Panel
 @onready var title_label: Label = $Panel/MarginContainer/VBoxContainer/TitleLabel
@@ -20,15 +26,10 @@ class_name LevelUpUI
 
 
 ## Available upgrade resources
-## Add more .tres files here as students create them
-## NOTE: Array type will show as Array[StatUpgradeResource] once Godot rescans the project
 @export var available_upgrades: Array[StatUpgradeResource] = [] 
 
 
 func _ready() -> void:
-	print("Array size: ", available_upgrades.size())
-	print("Array contents: ", available_upgrades)
-
 	player.level_up.connect(_on_player_level_up)
 
 	# Hide by default

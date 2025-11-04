@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ProjectileWeaponResource" load_steps=3 format=3 uid="uid://c7qxm2v8pqb3h"]
+[gd_resource type="Resource" script_class="ProjectileWeaponResource" load_steps=4 format=3 uid="uid://c7qxm2v8pqb3h"]
 
 [ext_resource type="Script" path="res://scripts/resources/projectile_weapon_resource.gd" id="1_basic_pistol"]
 [ext_resource type="Texture2D" uid="uid://dggbbtfuhbglf" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/arrow/Just_arrow.png" id="2_arrow_texture"]
+[ext_resource type="Resource" uid="uid://b7qxm2v8pqb3k" path="res://resources/projectiles/basic_projectile.tres" id="3_projectile"]
 
 [resource]
 script = ExtResource("1_basic_pistol")
@@ -15,21 +16,13 @@ rarity = "Common"
 value = 50
 base_damage = 15.0
 fire_rate = 0.5
-range = 500.0
+weapon_range = 500.0
 accuracy_spread = 5.0
 weight = 1
 requires_dual_wield = false
 weapon_sprite = ExtResource("2_arrow_texture")
 hold_offset = Vector2(20, 0)
 rotates_with_aim = true
-projectile_texture = ExtResource("2_arrow_texture")
-projectile_speed = 400.0
-projectile_scale = Vector2(0.5, 0.5)
-projectile_lifetime = 2.0
-piercing = false
-max_pierces = 1
+projectile_config = ExtResource("3_projectile")
 projectile_count = 1
 spread_angle = 0.0
-spawn_effect = null
-impact_effect = null
-rotate_sprite = true

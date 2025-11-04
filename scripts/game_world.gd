@@ -4,15 +4,14 @@ class_name GameWorld
 # Player reference - our main character
 @onready var player = $Player
 
-# System references
-# var inventory: InventorySystem = null
 
 func _ready():
 	# Set global reference so other systems can find us
 	Global.game_world = self
 
-	# Get inventory system reference (commented out - inventory system not currently active)
-	# inventory = get_node_or_null("InventorySystem")
+	# Connect to player death signal
+	if player:
+		player.player_died.connect(_on_player_died)
 
 	print("=== GAME WORLD LOADED ===")
 	print("Use arrow keys or WASD to move the player")
@@ -28,25 +27,24 @@ func _unhandled_input(event):
 		print("Player Name: " + player.character_name)
 		print("Player Health: " + str(player.current_health) + "/" + str(player.max_health))
 		print("Player Level: " + str(player.level))
-		print("Player Experience: " + str(player.experience_points))
-		print("Player Damage: " + str(player.damage))
-		
+		print("Player Experience: " + str(player.current_xp) + "/" + str(player.xp_to_next_level))
+
 		# Check which methods exist
 		if player.has_method("take_damage"):
 			print("✅ Player has take_damage() method")
 		else:
 			print("❌ Player missing take_damage() method")
-			
+
 		if player.has_method("heal"):
-			print("✅ Player has heal() method")  
+			print("✅ Player has heal() method")
 		else:
 			print("❌ Player missing heal() method")
-			
-		if player.has_method("level_up"):
-			print("✅ Player has level_up() method")
+
+		if player.has_method("level_up_character"):
+			print("✅ Player has level_up_character() method")
 		else:
-			print("❌ Player missing level_up() method")
-			
+			print("❌ Player missing level_up_character() method")
+
 		print("==================")
 	
 	# Secret debug command for testing experience
@@ -54,7 +52,9 @@ func _unhandled_input(event):
 		print("🧪 DEBUG: Giving player 50 experience")
 		player.gain_experience(50)
 
-# TODO: Add game management methods here (Future lessons)
-# - spawn_enemy()
-# - handle_combat()  
-# - check_game_over()
+
+## Handle player death
+func _on_player_died() -> void:
+	print("💀 GAME OVER 💀")
+	print("Press ESC to quit")
+	get_tree().paused = true

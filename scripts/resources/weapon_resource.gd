@@ -37,8 +37,8 @@ class_name WeaponResource
 ## Time between attacks in seconds
 @export var fire_rate: float = 1.0
 
-## How far the weapon can reach or shoot
-@export var range: float = 500.0
+## How far the weapon can reach or shoot (renamed from 'range' to avoid conflict with built-in function)
+@export var weapon_range: float = 500.0
 
 ## Accuracy modifier (0.0 = perfect accuracy, higher = more spread)
 @export var accuracy_spread: float = 0.0
@@ -64,12 +64,13 @@ class_name WeaponResource
 
 ## Virtual method for when the weapon is fired/used
 ## Override in child classes to implement specific weapon behavior
-func fire(shooter: Node2D, target_direction: Vector2) -> void:
+func fire(_shooter: Node2D, _target_direction: Vector2) -> void:
 	push_warning("fire() not implemented for " + item_name)
 
 
 ## Calculate actual damage based on player stats and weapon accuracy
-func calculate_damage(player_accuracy_bonus: float) -> float:
+## Currently returns base damage; player_accuracy_bonus is for future implementation
+func calculate_damage(_player_accuracy_bonus: float) -> float:
 	var base = base_damage
 	# Future: Add player stat modifiers here
 	return base

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c6gaa4kprawy0"]
+[gd_scene load_steps=13 format=3 uid="uid://c6gaa4kprawy0"]
 
 [ext_resource type="Script" uid="uid://co5hnowm81a7y" path="res://scripts/enemies/enemy_base.gd" id="1_ahq63"]
 [ext_resource type="Texture2D" uid="uid://barrcryhoe1ep" path="res://assets/Platformer Slimes v1.3/Ogre Slime Spritesheet.png" id="2_ahq63"]

@@ -7,4 +7,5 @@ script = ExtResource("1_health_upgrade")
 upgrade_id = "health_boost"
 upgrade_name = "Max Health +20"
 description = "Increases your maximum health"
+stat_type = 0
 amount = 20.0

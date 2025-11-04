@@ -5,6 +5,12 @@ class_name StatUpgradeResource
 ## Used by the level up system to offer stat improvements
 ## Students will create different upgrades by duplicating this resource
 
+## Enum defining available upgrade types
+enum UpgradeType {
+	HEALTH,    ## Increases max health
+	SPEED,     ## Increases movement speed
+}
+
 @export_group("Upgrade Identity")
 ## Unique identifier for this upgrade
 @export var upgrade_id: String = ""
@@ -19,8 +25,8 @@ class_name StatUpgradeResource
 @export var icon: Texture2D
 
 @export_group("Upgrade Effect")
-## Type of stat to upgrade (health, speed, accuracy, carry)
-@export_enum("health", "speed", "accuracy", "carry") var stat_type: String = "health"
+## Type of stat to upgrade
+@export var stat_type: UpgradeType = UpgradeType.HEALTH
 
 ## Amount to increase the stat by
 @export var amount: float = 0.0
@@ -33,19 +39,13 @@ func apply_to_player(player: Player) -> bool:
 		return false
 
 	match stat_type:
-		"health":
-			player.upgrade_health(amount)
-		"speed":
-			player.upgrade_speed(amount)
-		"accuracy":
-			player.upgrade_accuracy(amount)
-		"carry":
-			player.upgrade_carry_capacity(int(amount))
+		UpgradeType.HEALTH:
+			return player.upgrade_health(amount)
+		UpgradeType.SPEED:
+			return player.upgrade_speed(amount)
 		_:
-			push_error("Unknown stat_type: " + stat_type)
+			push_error("Unknown stat_type: " + str(stat_type))
 			return false
-
-	return true
 
 
 ## Get the full display text for this upgrade

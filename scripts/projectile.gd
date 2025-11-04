@@ -3,7 +3,7 @@ class_name Projectile
 
 ## A projectile fired from weapons
 ## This script handles movement, collision with enemies, and dealing damage
-## The projectile's properties are set from the ProjectileWeaponResource
+## The projectile's properties are set from a ProjectileResource
 
 var damage: float = 10.0
 var speed: float = 400.0
@@ -32,22 +32,26 @@ func _process(delta: float) -> void:
 		queue_free()
 
 
-## Initialize the projectile with data from a ProjectileWeaponResource
-func setup(projectile_data: Dictionary) -> void:
-	damage = projectile_data.get("damage", 10.0)
-	speed = projectile_data.get("speed", 400.0)
-	lifetime = projectile_data.get("lifetime", 3.0)
-	piercing = projectile_data.get("piercing", false)
-	max_pierces = projectile_data.get("max_pierces", 1)
+## Initialize the projectile with data from a ProjectileResource
+func setup(projectile_config: ProjectileResource) -> void:
+	if not projectile_config:
+		push_error("Projectile setup called with null ProjectileResource")
+		return
+
+	damage = projectile_config.damage
+	speed = projectile_config.speed
+	lifetime = projectile_config.lifetime
+	piercing = projectile_config.piercing
+	max_pierces = projectile_config.max_pierces
 
 	# Setup visual
 	var sprite = get_node_or_null("Sprite2D")
-	if sprite and projectile_data.has("texture"):
-		sprite.texture = projectile_data.get("texture")
-		sprite.scale = projectile_data.get("scale", Vector2.ONE)
+	if sprite and projectile_config.texture:
+		sprite.texture = projectile_config.texture
+		sprite.scale = projectile_config.scale
 
 	# Rotate sprite to match direction if enabled
-	if projectile_data.get("rotate_sprite", true):
+	if projectile_config.rotate_sprite:
 		rotation = direction.angle()
 
 

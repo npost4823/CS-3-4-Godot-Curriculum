@@ -1,17 +1,18 @@
-[gd_resource type="Resource" script_class="EnemyResource" load_steps=2 format=3 uid="uid://b2vqt8lam0r7p"]
+[gd_resource type="Resource" script_class="EnemyResource" load_steps=3 format=3 uid="uid://b2vqt8lam0r7p"]
 
 [ext_resource type="Script" uid="uid://bxtjti5hlu2op" path="res://scripts/resources/enemy_resource.gd" id="1_enemy"]
+[ext_resource type="SpriteFrames" uid="uid://vb5a3rr6m1hr" path="res://resources/animations/red_slime_frames.tres" id="2_frames"]
 
 [resource]
 script = ExtResource("1_enemy")
 enemy_id = "tank_slime"
 enemy_name = "Tank Slime"
+animated_frames = ExtResource("2_frames")
 max_health = 80.0
 contact_damage = 12.0
 move_speed = 50.0
 detection_range = 700.0
 xp_value = 20
-uses_separation = true
 separation_distance = 40.0
 unlock_wave = 2
 spawn_weight = 5

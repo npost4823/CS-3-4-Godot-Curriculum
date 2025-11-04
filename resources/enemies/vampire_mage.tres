@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyResource" load_steps=3 format=3 uid="uid://br8yn4w0prt7k"]
+
+[ext_resource type="Script" uid="uid://bxtjti5hlu2op" path="res://scripts/resources/enemy_resource.gd" id="1_enemy"]
+[ext_resource type="SpriteFrames" uid="uid://gsr2w7q3svy0l" path="res://resources/animations/vampire_frames.tres" id="2_frames"]
+
+[resource]
+script = ExtResource("1_enemy")
+enemy_id = "vampire_mage"
+enemy_name = "Vampire Mage"
+animated_frames = ExtResource("2_frames")
+sprite_scale = 1.0
+max_health = 35.0
+contact_damage = 10.0
+move_speed = 70.0
+detection_range = 1000.0
+xp_value = 15
+uses_separation = true
+separation_distance = 35.0
+unlock_wave = 3
+spawn_weight = 5
+credit_cost = 15

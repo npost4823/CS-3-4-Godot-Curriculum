@@ -22,10 +22,6 @@ var level: int = 1
 var current_xp: float = 0.0
 var xp_to_next_level: float = 100.0
 
-# Combat Stats (upgraded through leveling)
-var base_move_speed: float = 200.0  # Keep track of base speed
-var accuracy_bonus: float = 1.0  # Multiplier for weapon accuracy (higher = more accurate)
-var carry_capacity: int = 1  # How many heavy weapons can be carried
 
 # Signals for UI updates
 signal health_changed(new_health: float, max_health: float)
@@ -39,20 +35,13 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready():
-	print("Player is ready!")
 	current_health = max_health
-	base_move_speed = move_speed
 
 	# Set collision layers (Layer 1 = player)
 	collision_layer = 1
-	collision_mask = 2  # Collide with enemies
+	collision_mask = 2 | 8  # Collide with enemies (layer 2) and XP drops (layer 8)
 
-	print("Character: ", character_name)
-	print("Health: ", current_health, "/", max_health)
-	print("Level: ", level)
-	print("XP: ", current_xp, "/", xp_to_next_level)
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	handle_movement()
 
 func handle_movement():
@@ -70,14 +59,15 @@ func handle_movement():
 	velocity = direction * move_speed
 	move_and_slide()
 
-# BAD QUICK CODE MAYBE CHANGE
+## Update sprite animation based on movement direction
+## Handles 4-directional sprites with idle and walk states
 func handle_sprite(direction: Vector2) -> void:
 	var prefix: String = "walk"
 	if direction == Vector2.ZERO:
 		prefix = "idle"
 	else:
 		facing = direction
-	
+
 	if facing.y > 0:
 		animated_sprite.play(prefix + "_forward")
 	elif facing.y < 0:
@@ -98,8 +88,6 @@ func take_damage(amount: float) -> bool:
 	current_health = max(0, current_health)
 	health_changed.emit(current_health, max_health)
 
-	print(character_name + " took " + str(amount) + " damage! Health: " + str(current_health) + "/" + str(max_health))
-
 	if current_health <= 0:
 		die()
 		return true
@@ -117,7 +105,6 @@ func heal(amount: float) -> bool:
 	current_health = min(max_health, current_health)
 	health_changed.emit(current_health, max_health)
 
-	print(character_name + " healed " + str(amount) + " HP! Health: " + str(current_health) + "/" + str(max_health))
 	return true
 
 
@@ -126,8 +113,6 @@ func heal(amount: float) -> bool:
 func gain_experience(amount: float) -> bool:
 	current_xp += amount
 	xp_changed.emit(current_xp, xp_to_next_level)
-
-	print("Gained " + str(amount) + " XP! (" + str(current_xp) + "/" + str(xp_to_next_level) + ")")
 
 	# Check if leveled up
 	var did_level_up = false
@@ -178,14 +163,6 @@ func die() -> bool:
 
 # ========== STAT UPGRADE METHODS (Called from UI) ==========
 
-## Upgrade movement speed
-## Returns true on successful upgrade
-func upgrade_speed(amount: float) -> bool:
-	base_move_speed += amount
-	move_speed = base_move_speed
-	print("Speed increased! New speed: " + str(move_speed))
-	return true
-
 
 ## Upgrade max health
 ## Returns true on successful upgrade
@@ -193,21 +170,11 @@ func upgrade_health(amount: float) -> bool:
 	max_health += amount
 	current_health += amount  # Also heal when upgrading
 	health_changed.emit(current_health, max_health)
-	print("Max health increased! New max health: " + str(max_health))
 	return true
 
 
-## Upgrade carry capacity
+## Upgrade movement speed
 ## Returns true on successful upgrade
-func upgrade_carry_capacity(amount: int) -> bool:
-	carry_capacity += amount
-	print("Carry capacity increased! Can now carry " + str(carry_capacity) + " heavy weapons")
-	return true
-
-
-## Upgrade accuracy
-## Returns true on successful upgrade
-func upgrade_accuracy(amount: float) -> bool:
-	accuracy_bonus += amount
-	print("Accuracy increased! Bonus: " + str(accuracy_bonus))
+func upgrade_speed(amount: float) -> bool:
+	move_speed += amount
 	return true

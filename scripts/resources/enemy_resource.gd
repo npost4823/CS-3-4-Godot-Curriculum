@@ -2,7 +2,15 @@ extends Resource
 class_name EnemyResource
 
 ## Configuration resource for enemy types
-## Students will duplicate this to create different enemy variants
+## Works with scenes/enemies/enemy.tscn (generic template scene)
+## Students create new enemy types by duplicating existing .tres files
+##
+## TEACHING NOTE: To create a new enemy:
+## 1. Right-click in resources/enemies/ folder
+## 2. Duplicate an existing enemy resource (e.g., basic_slime.tres)
+## 3. Rename it (e.g., flying_bat.tres)
+## 4. Modify the properties (texture, stats, behavior)
+## 5. Add to WaveSpawner's available_enemies array
 ## Example: Fast/weak enemies vs slow/strong enemies
 
 @export_group("Enemy Identity")
@@ -17,6 +25,9 @@ class_name EnemyResource
 
 ## Optional: AnimatedSprite frames if using animations
 @export var animated_frames: SpriteFrames
+
+## Visual scale (1.0 = normal size, 2.0 = double size, 0.5 = half size)
+@export var sprite_scale: float = 1.0
 
 @export_group("Combat Stats")
 ## Maximum health points
@@ -56,13 +67,28 @@ class_name EnemyResource
 @export var credit_cost: int = 10
 
 
-## Calculate actual stats based on wave difficulty scaling
-func get_scaled_stats(wave_number: int) -> Dictionary:
-	var wave_multiplier = 1.0 + (wave_number - 1) * 0.15  # 15% increase per wave
+## Calculate scaled health based on wave number
+## Returns health with 15% increase per wave
+func get_scaled_health(wave_number: int) -> float:
+	var wave_multiplier = 1.0 + (wave_number - 1) * 0.15
+	return max_health * wave_multiplier
 
-	return {
-		"max_health": max_health * wave_multiplier,
-		"contact_damage": contact_damage * wave_multiplier,
-		"move_speed": move_speed * min(1.5, 1.0 + (wave_number - 1) * 0.05),  # Speed caps at 1.5x
-		"xp_value": int(xp_value * wave_multiplier)
-	}
+
+## Calculate scaled contact damage based on wave number
+## Returns damage with 15% increase per wave
+func get_scaled_damage(wave_number: int) -> float:
+	var wave_multiplier = 1.0 + (wave_number - 1) * 0.15
+	return contact_damage * wave_multiplier
+
+
+## Calculate scaled move speed based on wave number
+## Returns speed with 5% increase per wave, capped at 1.5x
+func get_scaled_speed(wave_number: int) -> float:
+	return move_speed * min(1.5, 1.0 + (wave_number - 1) * 0.05)
+
+
+## Calculate scaled XP value based on wave number
+## Returns XP with 15% increase per wave
+func get_scaled_xp(wave_number: int) -> int:
+	var wave_multiplier = 1.0 + (wave_number - 1) * 0.15
+	return int(xp_value * wave_multiplier)
