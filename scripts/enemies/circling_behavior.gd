@@ -1,16 +1,31 @@
 extends EnemyBehavior
 
-## Example custom behavior: Enemy circles around the player
+## ============================================================================
+## CIRCLING BEHAVIOR - Example: Enemy orbits around the player
+## ============================================================================
 ##
-## TEACHING NOTE: This demonstrates how to override enemy behavior
-## To use this:
-## 1. Open an EnemyResource (.tres file) in the inspector
-## 2. Find "Custom Behavior Script" under Behavior Properties
-## 3. Drag this script file into that field (or click and select it)
-## 4. The enemy will now circle the player instead of charging straight
+## WHAT THIS DOES:
+## Instead of charging straight at the player, this enemy circles around
+## them at a set distance. Uses trigonometry (sin/cos) to calculate circular
+## movement.
 ##
-## EXPERIMENT: Try changing orbit_radius, orbit_speed, or approach_distance
-## to create different behavior patterns
+## HOW TO USE:
+##   1. Open an enemy resource (.tres file) in Inspector
+##   2. Find "Custom Behavior Script" under Behavior Properties
+##   3. Assign this script
+##   4. Enemy will now orbit the player!
+##
+## EXPERIMENT:
+##   - Change orbit_radius for tighter/wider circles
+##   - Change orbit_speed for faster/slower orbiting
+##   - Change approach_distance to adjust when circling starts
+##
+## LEARN FROM THIS:
+##   - Using sin/cos for circular motion
+##   - State-based AI (approaching vs circling)
+##   - Distance calculations
+##
+## ============================================================================
 
 ## How far from the player the enemy tries to stay while circling
 @export var orbit_radius: float = 150.0

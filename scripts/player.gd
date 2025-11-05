@@ -1,6 +1,45 @@
 extends CharacterBody2D
 class_name Player
 
+## ============================================================================
+## PLAYER - Main player character controller
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This script controls the player character. It handles:
+## - Movement (arrow keys/WASD)
+## - Health and damage
+## - Experience points and leveling up
+## - Stat upgrades when leveling
+## - Death
+##
+## This script works with:
+## - scenes/player.tscn (the player scene)
+## - scripts/ui/hud.gd (displays health/XP bars)
+## - scripts/ui/level_up_ui.gd (shows upgrade choices)
+## - scripts/weapon_system.gd (automatic shooting)
+##
+## ============================================================================
+## COMMON MODIFICATIONS (REQUIRES CODE CHANGES):
+## ============================================================================
+##
+## Change player speed:
+##   - Find: @export var move_speed: float = 200.0
+##   - Change the number to make player faster/slower
+##
+## Change starting health:
+##   - Find: @export var max_health: float = 100.0
+##   - Change the value
+##
+## Change XP requirements:
+##   - Find: func calculate_xp_for_next_level()
+##   - Modify the formula
+##
+## Add new upgrade types:
+##   - See stat_upgrade_resource.gd for instructions
+##   - Add upgrade_STAT functions (like upgrade_health)
+##
+## ============================================================================
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 

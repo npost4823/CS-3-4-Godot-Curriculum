@@ -1,14 +1,71 @@
 extends Node2D
 class_name WaveSpawner
 
-## Manages enemy spawning in waves for Vampire Survivors-style gameplay
-## Spawns enemies continuously with increasing difficulty
+## ============================================================================
+## WAVE SPAWNER - Enemy wave management and difficulty scaling
+## ============================================================================
 ##
-## TEACHING NOTE: This uses a template-based enemy system!
-## - enemy_scene should point to scenes/enemies/enemy.tscn (generic template)
-## - The template is instantiated, then configured using an EnemyResource
-## - Students create new enemy types by creating new .tres resource files
-## - No need to create new enemy scene files!
+## WHAT THIS SCRIPT DOES:
+## This script manages continuous enemy spawning in waves. It:
+## - Spawns enemies at intervals based on wave timing
+## - Uses a "credit budget" system (harder enemies cost more credits)
+## - Increases difficulty each wave (15% more health/damage per wave)
+## - Unlocks new enemy types at specific waves
+## - Respects spawn weights (common vs rare enemies)
+##
+## This uses a TEMPLATE SYSTEM:
+##   - One generic enemy scene (scenes/enemies/enemy.tscn)
+##   - Many enemy resource files (resources/enemies/*.tres)
+##   - Spawner creates template, then loads resource data into it
+##   - This is why creating new enemies doesn't require new scenes!
+##
+## This script works with:
+## - resources/enemies/*.tres (EnemyResource data files)
+## - scenes/enemies/enemy.tscn (generic enemy template)
+## - scripts/enemies/enemy_base.gd (configured by resource data)
+##
+## ============================================================================
+## HOW TO ADD NEW ENEMIES TO SPAWN POOL:
+## ============================================================================
+##
+## 1. Create enemy resource file (see enemy_resource.gd)
+##
+## 2. Add to spawn pool:
+##    - Open scenes/arena.tscn
+##    - Select GameWorld node
+##    - Find "Available Enemies" array in Inspector
+##    - Click "+" to add element
+##    - Drag your enemy resource into the new slot
+##
+## 3. Test - your enemy will now spawn in waves!
+##
+## ============================================================================
+## ADVANCED: Modifying Spawn System
+## ============================================================================
+##
+## Change spawn rate:
+##   - Find: @export var wave_duration
+##   - Find: @export var spawn_interval
+##   - Decrease for more enemies
+##
+## Change difficulty scaling:
+##   - Find: func spawn_wave()
+##   - Modify difficulty_multiplier calculation (currently 15% per wave)
+##
+## Change credit budget:
+##   - Find: @export var base_spawn_credit
+##   - Find: credit_per_wave_increase
+##   - More credits = more/stronger enemies per wave
+##
+## Add boss waves:
+##   - Check wave number in spawn_wave()
+##   - If wave == 10, spawn special boss enemy
+##
+## Change spawn positions:
+##   - Find: func get_random_spawn_position()
+##   - Modify to spawn enemies in patterns, from specific directions, etc.
+##
+## ============================================================================
 
 ## Base enemy scene template (scenes/enemies/enemy.tscn)
 @export var enemy_scene: PackedScene

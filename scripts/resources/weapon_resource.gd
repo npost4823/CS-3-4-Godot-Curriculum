@@ -1,9 +1,26 @@
 extends Resource
 class_name WeaponResource
 
-## Base class for all weapons
-## Weapons can be equipped and used in combat
-## This class is extended by specialized weapon types like ProjectileWeaponResource
+## ============================================================================
+## WEAPON RESOURCE - Base class for weapon data
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This is a BASE RESOURCE SCRIPT for all weapon types. It defines common
+## properties that all weapons share (damage, fire rate, visuals, etc.).
+##
+## You typically DON'T create resources directly from this class. Instead,
+## use the specialized weapon type: ProjectileWeaponResource
+##
+## This is a parent class that provides shared functionality.
+##
+## ============================================================================
+## HOW TO CREATE NEW WEAPONS:
+## ============================================================================
+##
+## Use ProjectileWeaponResource instead! See projectile_weapon_resource.gd
+##
+## ============================================================================
 
 @export_group("Item Identity")
 ## Unique identifier for this weapon

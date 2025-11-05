@@ -1,9 +1,41 @@
 extends WeaponResource
 class_name ProjectileWeaponResource
 
-## Specialized weapon that shoots projectiles
-## This is the main example students will learn from and duplicate
-## Students will create variations by changing the projectile_config and multi-shot properties
+## ============================================================================
+## PROJECTILE WEAPON RESOURCE - Weapons that fire projectiles
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This is a RESOURCE SCRIPT that defines weapons that shoot projectiles
+## (bullets, arrows, fireballs, etc.). It extends WeaponResource to add
+## projectile-specific properties like multi-shot and spread.
+##
+## This resource works with:
+## - scripts/weapon_system.gd (reads this data to fire projectiles)
+## - ProjectileResource (defines what projectiles look/behave like)
+##
+## ============================================================================
+## HOW TO CREATE NEW WEAPONS (NO CODE CHANGES NEEDED):
+## ============================================================================
+##
+## 1. In Godot editor, navigate to: resources/weapons/
+##
+## 2. Right-click on basic_pistol.tres and select "Duplicate"
+##
+## 3. Rename it (e.g., "shotgun.tres", "sniper.tres", "machine_gun.tres")
+##
+## 4. Double-click to open in Inspector and modify properties
+##
+## 5. Assign to player:
+##    - Open scenes/player.tscn
+##    - Select WeaponSystem node
+##    - In Inspector, set "Equipped Weapon" to your new weapon
+##
+## 6. Test by playing the game!
+##
+## NO CODE CHANGES REQUIRED - Just duplicate .tres files and change values!
+##
+## ============================================================================
 
 @export_group("Projectile Configuration")
 ## The projectile configuration resource

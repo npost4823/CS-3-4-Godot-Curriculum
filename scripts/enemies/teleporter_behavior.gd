@@ -1,17 +1,30 @@
 extends EnemyBehavior
 
-## Example custom behavior: Enemy teleports around the player
+## ============================================================================
+## TELEPORTER BEHAVIOR - Example: Enemy teleports near player
+## ============================================================================
 ##
-## TEACHING NOTE: This demonstrates more advanced behavior with cooldowns
-## Shows how to make enemies that don't just move smoothly
+## WHAT THIS DOES:
+## Enemy doesn't move normally - instead, it teleports to random positions
+## near the player on a cooldown. Creates unpredictable, hit-and-run enemies.
 ##
-## To use:
-## 1. Assign this script to an EnemyResource's custom_behavior_script
-## 2. Enemy will teleport near the player every few seconds
+## HOW TO USE:
+##   1. Open an enemy resource (.tres file)
+##   2. Assign this script to "Custom Behavior Script"
+##   3. Enemy will teleport around the player!
 ##
-## EXPERIMENT: Change teleport_cooldown to teleport more/less often
-## Try changing teleport_distance_min/max for different positioning
-## ADVANCED: Make the enemy flash/fade before teleporting!
+## EXPERIMENT:
+##   - Change teleport_cooldown for more/less frequent teleports
+##   - Change distance min/max for closer/further teleports
+##   - ADVANCED: Add visual effects before teleporting!
+##
+## LEARN FROM THIS:
+##   - Timer/cooldown patterns (time_since_teleport)
+##   - Random positioning with randf() and randf_range()
+##   - Polar coordinates (angle + distance)
+##   - Instant position changes vs smooth movement
+##
+## ============================================================================
 
 ## How many seconds between teleports
 @export var teleport_cooldown: float = 3.0

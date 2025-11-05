@@ -1,17 +1,47 @@
 extends Resource
 class_name EnemyResource
 
-## Configuration resource for enemy types
-## Works with scenes/enemies/enemy.tscn (generic template scene)
-## Students create new enemy types by duplicating existing .tres files
+## ============================================================================
+## ENEMY RESOURCE - Data definition for enemy types
+## ============================================================================
 ##
-## TEACHING NOTE: To create a new enemy:
-## 1. Right-click in resources/enemies/ folder
-## 2. Duplicate an existing enemy resource (e.g., basic_slime.tres)
-## 3. Rename it (e.g., flying_bat.tres)
-## 4. Modify the properties (texture, stats, behavior)
-## 5. Add to WaveSpawner's available_enemies array
-## Example: Fast/weak enemies vs slow/strong enemies
+## WHAT THIS SCRIPT DOES:
+## This is a RESOURCE SCRIPT that defines the data structure for enemy types.
+## Resources are data containers - they don't run code during gameplay, they
+## just hold configuration values that other scripts read.
+##
+## This resource works with:
+## - scenes/enemies/enemy.tscn (the generic enemy scene template)
+## - scripts/enemies/enemy_base.gd (the script that reads this data)
+##
+## ============================================================================
+## HOW TO CREATE NEW ENEMY TYPES (NO CODE CHANGES NEEDED):
+## ============================================================================
+##
+## 1. In the Godot editor, navigate to: resources/enemies/
+##
+## 2. Right-click on an existing enemy resource (e.g., basic_slime.tres)
+##    and select "Duplicate"
+##
+## 3. Rename the new file (e.g., "flying_bat.tres", "tank_enemy.tres")
+##
+## 4. Double-click to open it in the Inspector and modify properties:
+##    - Change enemy_id and enemy_name
+##    - Set animated_frames or enemy_texture for visuals
+##    - Adjust stats (health, damage, speed)
+##    - Optional: Assign a custom_behavior_script for unique AI
+##
+## 5. Add your new enemy to the game:
+##    - Open scenes/arena.tscn
+##    - Find the GameWorld node
+##    - In Inspector, find "available_enemies" array
+##    - Add your new enemy resource to the array
+##
+## 6. Test by playing the game - your enemy will spawn in waves!
+##
+## NO CODE CHANGES REQUIRED - Just duplicate .tres files and change values!
+##
+## ============================================================================
 
 @export_group("Enemy Identity")
 ## Unique identifier for this enemy type

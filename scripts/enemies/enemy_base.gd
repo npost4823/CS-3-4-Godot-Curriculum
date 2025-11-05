@@ -1,12 +1,63 @@
 extends CharacterBody2D
 class_name EnemyBase
 
-## Base class for all enemies
-## Works with scenes/enemies/enemy.tscn (generic template)
-## The WaveSpawner instantiates the template and calls load_from_resource()
-## This allows students to create different enemy types by creating new EnemyResource files
-
-## Just create a new EnemyResource .tres file with different stats, texture, and behavior
+## ============================================================================
+## ENEMY BASE - Generic enemy controller (works with all enemy types)
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This script controls ALL enemy behavior. It's generic - a single enemy
+## scene (scenes/enemies/enemy.tscn) can become any enemy type by loading
+## different EnemyResource data files.
+##
+## Enemy behavior:
+## - Chases the player when in detection range
+## - Avoids clustering with other enemies (separation)
+## - Deals contact damage to player
+## - Takes damage from projectiles
+## - Drops XP when killed
+## - Optionally uses custom behavior scripts
+##
+## This script works with:
+## - resources/enemies/*.tres (EnemyResource data files)
+## - scripts/wave_spawner.gd (spawns enemies with resource data)
+## - scripts/enemies/enemy_behavior.gd (optional custom AI)
+##
+## ============================================================================
+## HOW TO CREATE NEW ENEMY TYPES:
+## ============================================================================
+##
+## You DON'T modify this script! Instead:
+##
+## 1. Create new EnemyResource files (.tres) - see enemy_resource.gd
+## 2. For custom AI, create behavior scripts - see enemy_behavior.gd
+##
+## This script automatically reads whatever data is in the EnemyResource
+## and configures itself accordingly.
+##
+## ============================================================================
+## ADVANCED: Modifying Core Enemy Behavior
+## ============================================================================
+##
+## If you want to change how ALL enemies behave:
+##
+## Change chase behavior:
+##   - Find: func _default_behavior()
+##   - Modify the movement/rotation logic
+##
+## Change contact damage:
+##   - Find: func _on_body_entered()
+##   - Modify damage application
+##
+## Change separation:
+##   - Find: func apply_separation()
+##   - Adjust separation force calculations
+##
+## Add new features (e.g., ranged attacks):
+##   - This requires significant code additions
+##   - Consider using custom behavior scripts instead
+##
+## ============================================================================
 
 @export var enemy_data: EnemyResource
 

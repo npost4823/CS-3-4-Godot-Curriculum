@@ -1,14 +1,83 @@
 extends Node
 class_name EnemyBehavior
 
-## Base class for custom enemy behaviors
-## Students create custom behaviors by:
-## 1. Creating a new .gd file that extends EnemyBehavior
-## 2. Overriding process_behavior() to define movement/attack logic
-## 3. Assigning the script to an EnemyResource's custom_behavior_script field
+## ============================================================================
+## ENEMY BEHAVIOR - Base class for custom enemy AI behaviors
+## ============================================================================
 ##
-## TEACHING NOTE: Custom behaviors give students complete control over enemy AI
-## Examples: circling enemies, teleporting enemies, enemies that flee when low health
+## WHAT THIS SCRIPT DOES:
+## This is a BASE CLASS for creating custom enemy behaviors. By default,
+## all enemies chase the player. But if you want enemies with special AI
+## (circling, fleeing, teleporting, etc.), you create a script that extends
+## this class.
+##
+## This script works with:
+## - scripts/enemies/enemy_base.gd (uses behavior scripts if assigned)
+## - resources/enemies/*.tres (EnemyResource assigns behavior to enemies)
+##
+## ============================================================================
+## HOW TO CREATE CUSTOM ENEMY BEHAVIORS:
+## ============================================================================
+##
+## STEP 1: Create a new behavior script
+##   - In scripts/enemies/ folder, create new script (e.g., "zigzag_behavior.gd")
+##   - Start with: extends EnemyBehavior
+##
+## STEP 2: Override process_behavior() function
+##   - This function is called every frame
+##   - Return a Vector2 for the enemy's velocity
+##   - You have access to:
+##     - self.enemy (the enemy this behavior controls)
+##     - self.player (the player character)
+##
+## STEP 3: Assign behavior to an enemy resource
+##   - Open your enemy resource (.tres file)
+##   - Find "Custom Behavior Script" field
+##   - Assign your new behavior script
+##
+## EXAMPLE behaviors included:
+##   - circling_behavior.gd - Orbits around player
+##   - coward_behavior.gd - Flees when health is low
+##   - teleporter_behavior.gd - Teleports near player periodically
+##
+## ============================================================================
+## HELPER FUNCTIONS AVAILABLE:
+## ============================================================================
+##
+## apply_separation(direction) - Avoid clustering with other enemies
+## update_sprite_flip(direction) - Flip sprite to face movement direction
+##
+## You can access enemy properties:
+##   - enemy.global_position
+##   - enemy.move_speed
+##   - enemy.current_health / enemy.max_health
+##   - enemy.detection_range
+##   - enemy.enemy_data (the resource)
+##
+## You can access player properties:
+##   - player.global_position
+##   - player.current_health
+##
+## ============================================================================
+## EXAMPLES OF CUSTOM BEHAVIORS TO CREATE:
+## ============================================================================
+##
+## Zigzag movement:
+##   - Alternate moving left/right while approaching player
+##
+## Charge attack:
+##   - Move slowly until close, then charge at high speed
+##
+## Hit and run:
+##   - Approach player, attack, then retreat for a few seconds
+##
+## Ranged enemy:
+##   - Keep distance from player, spawn projectiles
+##
+## Patrol:
+##   - Move between waypoints, only chase if player gets close
+##
+## ============================================================================
 
 ## Reference to the enemy this behavior controls
 var enemy: EnemyBase = null

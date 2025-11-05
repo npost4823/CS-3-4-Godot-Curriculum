@@ -1,21 +1,60 @@
 extends CanvasLayer
 class_name LevelUpUI
 
-## UI shown when player levels up
-## Allows player to choose one stat upgrade from available upgrade resources
-## Game pauses while this UI is shown
+## ============================================================================
+## LEVEL UP UI - Upgrade selection screen
+## ============================================================================
 ##
-## TEACHING NOTE: This system uses Resources to define upgrades!
-## Students can create new upgrades by:
-## 1. Right-clicking in resources/upgrades/ folder
-## 2. Create a new Resource and select StatUpgradeResource
-## 3. Configure the upgrade properties (name, description, stat_type, amount)
-## 4. Add the resource to the available_upgrades array in the level_up_ui scene
+## WHAT THIS SCRIPT DOES:
+## This script manages the level-up screen that appears when the player gains
+## a level. It:
+## - Pauses the game
+## - Shows 3 random upgrade options
+## - Creates buttons dynamically from StatUpgradeResource data
+## - Applies the chosen upgrade to the player
+## - Unpauses and hides itself after selection
 ##
-## To add NEW upgrade types (e.g., damage, fire rate):
-## 1. Add the stat type to UpgradeType enum in stat_upgrade_resource.gd
-## 2. Add an upgrade_xxx() method to player.gd (see upgrade_health as example)
-## 3. Add the new case to the match statement in stat_upgrade_resource.gd apply_to_player()
+## This script works with:
+## - scripts/player.gd (connects to level_up signal)
+## - resources/upgrades/*.tres (StatUpgradeResource files)
+## - scripts/resources/stat_upgrade_resource.gd (upgrade definitions)
+##
+## ============================================================================
+## HOW TO ADD MORE UPGRADES TO THE POOL:
+## ============================================================================
+##
+## Create new upgrade variants (NO CODE CHANGES):
+##   - See stat_upgrade_resource.gd for instructions
+##   - Duplicate existing upgrade .tres files
+##   - Change amount, name, description
+##
+## Add new upgrade TYPES (REQUIRES CODE):
+##   - See stat_upgrade_resource.gd for detailed instructions
+##   - Add to UpgradeType enum
+##   - Add upgrade function to player.gd
+##   - Add case to match statement
+##
+## ============================================================================
+## COMMON MODIFICATIONS:
+## ============================================================================
+##
+## Change number of upgrade options:
+##   - Find: @export var upgrade_choices_count: int = 3
+##   - Change to 2, 4, 5, etc.
+##
+## Show all upgrades instead of random:
+##   - Modify show_upgrade_options()
+##   - Don't shuffle, just show all available_upgrades
+##
+## Add upgrade rarity system:
+##   - Add rarity property to StatUpgradeResource
+##   - Weight random selection based on rarity
+##
+## Add reroll button:
+##   - Add button that regenerates upgrade options
+##   - Costs gold or has limited uses
+##
+## ============================================================================
 
 
 @onready var panel: Panel = $Panel

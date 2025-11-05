@@ -1,17 +1,30 @@
 extends EnemyBehavior
 
-## Example custom behavior: Enemy flees when health is low
+## ============================================================================
+## COWARD BEHAVIOR - Example: Enemy flees when health is low
+## ============================================================================
 ##
-## TEACHING NOTE: This shows how custom behaviors can react to enemy state
-## The enemy acts normally when healthy, but runs away when low on health
+## WHAT THIS DOES:
+## Enemy acts normal when healthy, but runs away from player when health
+## drops below a threshold. Demonstrates state-dependent AI.
 ##
-## To use this behavior:
-## 1. Open an EnemyResource (.tres file)
-## 2. Assign this script to "Custom Behavior Script"
-## 3. The enemy will flee when below flee_health_percent
+## HOW TO USE:
+##   1. Open an enemy resource (.tres file)
+##   2. Find "Custom Behavior Script"
+##   3. Assign this script
+##   4. Enemy will flee when health drops below flee_health_percent!
 ##
-## EXPERIMENT: Change flee_health_percent to make enemies braver or more cowardly
-## Try adding flee_speed_boost to make them run faster when scared!
+## EXPERIMENT:
+##   - Change flee_health_percent (0.3 = 30% health)
+##   - Change flee_speed_boost for faster/slower fleeing
+##   - Add a "brave threshold" where they re-engage
+##
+## LEARN FROM THIS:
+##   - Reading enemy state (current_health / max_health)
+##   - Conditional behavior based on health
+##   - Inverting direction vectors (flee = opposite of chase)
+##
+## ============================================================================
 
 ## At what health percentage does the enemy start fleeing? (0.0 to 1.0)
 @export var flee_health_percent: float = 0.3  # Flee at 30% health

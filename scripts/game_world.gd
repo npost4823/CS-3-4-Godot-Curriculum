@@ -1,6 +1,52 @@
 extends Node2D
 class_name GameWorld
 
+## ============================================================================
+## GAME WORLD - Main game scene controller
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This is the main controller for the game. It:
+## - Manages the overall game scene
+## - Connects to player signals (death, level up)
+## - Provides debug commands for testing
+## - Handles game over state
+##
+## This script works with:
+## - scenes/arena.tscn (the main game scene)
+## - scripts/player.gd (player character)
+## - scripts/wave_spawner.gd (enemy spawning)
+##
+## ============================================================================
+## DEBUG COMMANDS (for testing):
+## ============================================================================
+##
+## SPACE - Print debug info (health, level, XP, available methods)
+## ENTER - Gain 50 XP instantly (for testing level ups)
+## ESC - Quit game
+##
+## ============================================================================
+## COMMON MODIFICATIONS:
+## ============================================================================
+##
+## Add game restart:
+##   - Find: func _on_player_died()
+##   - Add: get_tree().reload_current_scene()
+##
+## Add main menu:
+##   - Create menu scene
+##   - Switch to it on player death
+##
+## Add score tracking:
+##   - Count kills, track time survived
+##   - Display on game over screen
+##
+## Add pause menu:
+##   - Detect pause input
+##   - Show pause UI, set get_tree().paused = true
+##
+## ============================================================================
+
 # Player reference - our main character
 @onready var player = $Player
 

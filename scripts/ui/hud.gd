@@ -1,8 +1,45 @@
 extends CanvasLayer
 class_name HUD
 
-## Main HUD that displays player stats
-## Shows health bar, XP bar, level, and current stats
+## ============================================================================
+## HUD - Heads-Up Display showing player stats
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This script manages the player's HUD (health bar, XP bar, level display).
+## It:
+## - Connects to player signals (health_changed, xp_changed, level_up)
+## - Updates progress bars when stats change
+## - Displays current level and stats
+##
+## This script works with:
+## - scripts/player.gd (receives signals from player)
+## - scenes/ui/hud.tscn (the HUD UI scene)
+##
+## ============================================================================
+## COMMON MODIFICATIONS:
+## ============================================================================
+##
+## Add new stat displays:
+##   - Add Label node in hud.tscn
+##   - Get reference with @onready
+##   - Connect to player signal or update in update_all_displays()
+##
+## Change bar colors:
+##   - Edit hud.tscn
+##   - Select ProgressBar node
+##   - Modify Theme Overrides -> Styles
+##
+## Add health number display:
+##   - Add Label for "100/100"
+##   - Update in _on_health_changed()
+##
+## Add animations:
+##   - Flash red when taking damage
+##   - Pulse when leveling up
+##   - Use Tween for smooth color changes
+##
+## ============================================================================
 
 @onready var health_bar: ProgressBar = $MarginContainer/VBoxContainer/HealthBar
 @onready var xp_bar: ProgressBar = $MarginContainer/VBoxContainer/XPBar

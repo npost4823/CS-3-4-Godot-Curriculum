@@ -1,9 +1,57 @@
 extends Node2D
 class_name WeaponSystem
 
-## Handles automatic weapon firing for the player
-## This node is a child of the player and rotates to face enemies
-## It loads weapon data from ProjectileWeaponResource files
+## ============================================================================
+## WEAPON SYSTEM - Automatic weapon firing and targeting
+## ============================================================================
+##
+## WHAT THIS SCRIPT DOES:
+## This script handles automatic weapon firing for the player. It:
+## - Finds the nearest enemy
+## - Rotates to face that enemy
+## - Automatically fires projectiles based on weapon stats
+## - Handles weapon cooldowns and spread
+##
+## This script works with:
+## - resources/weapons/*.tres (ProjectileWeaponResource data)
+## - scenes/projectile.tscn (spawns these when firing)
+## - scripts/player.gd (attached to player as child node)
+##
+## ============================================================================
+## HOW TO CHANGE WEAPONS:
+## ============================================================================
+##
+## Change which weapon the player starts with:
+##   1. Open scenes/player.tscn
+##   2. Select the WeaponSystem child node
+##   3. In Inspector, change "Equipped Weapon" to a different weapon resource
+##
+## Create new weapon types:
+##   - See projectile_weapon_resource.gd for instructions
+##   - Just duplicate .tres files, no code changes needed!
+##
+## ============================================================================
+## ADVANCED: Modifying Weapon System Behavior
+## ============================================================================
+##
+## Change targeting logic:
+##   - Find: func _find_nearest_enemy()
+##   - Modify to target lowest health, highest damage, etc.
+##
+## Add manual aiming:
+##   - Currently auto-aims at nearest enemy
+##   - Modify _process() to use mouse position or input direction
+##
+## Add weapon switching:
+##   - Add input detection
+##   - Call equip_weapon() with different weapon resources
+##   - Store multiple weapons in an array
+##
+## Change fire pattern:
+##   - Find: func _fire_weapon()
+##   - Modify spread calculations, projectile positioning
+##
+## ============================================================================
 
 @export var equipped_weapon: ProjectileWeaponResource
 @export var projectile_scene: PackedScene
