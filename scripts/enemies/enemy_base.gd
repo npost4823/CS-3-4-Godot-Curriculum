@@ -24,6 +24,10 @@ var xp_value: int = 10
 var player: Player = null
 var sprite: Node = null
 
+# Custom behavior (optional)
+## If enemy_data has a custom_behavior_script, this will be instantiated
+var custom_behavior: EnemyBehavior = null
+
 # Contact damage cooldown
 var damage_cooldown: float = 0.0
 var damage_cooldown_time: float = 1.0
@@ -38,7 +42,7 @@ func _ready() -> void:
 
 	# Set collision layers (Layer 2 = enemies)
 	collision_layer = 2
-	collision_mask = 1  # Collide with player
+	collision_mask = 0  # Don't collide with anything (let Area2D handle player detection)
 
 	# Get sprite node (could be Sprite2D or AnimatedSprite2D)
 	sprite = get_node_or_null("Sprite2D")
@@ -76,6 +80,17 @@ func load_from_resource(resource: EnemyResource, wave_number: int) -> bool:
 			sprite.texture = resource.enemy_texture
 			sprite.scale = Vector2(resource.sprite_scale, resource.sprite_scale)
 
+	# Load custom behavior if specified
+	if resource.custom_behavior_script:
+		# Instantiate the custom behavior script
+		custom_behavior = resource.custom_behavior_script.new()
+		if custom_behavior and custom_behavior is EnemyBehavior:
+			add_child(custom_behavior)
+			custom_behavior.initialize(self, player)
+		else:
+			push_error("Custom behavior script must extend EnemyBehavior")
+			custom_behavior = null
+
 	return true
 
 
@@ -87,6 +102,21 @@ func _physics_process(delta: float) -> void:
 	if damage_cooldown > 0:
 		damage_cooldown -= delta
 
+	# Use custom behavior if available, otherwise use default behavior
+	if custom_behavior:
+		# Custom behavior handles movement
+		velocity = custom_behavior.process_behavior(delta)
+		move_and_slide()
+
+		# Custom behavior can handle attacks
+		custom_behavior.process_attack(delta)
+	else:
+		# Default behavior: chase the player
+		_default_behavior(delta)
+
+
+## Default enemy behavior: chase the player
+func _default_behavior(delta: float) -> void:
 	# Check if player is in detection range
 	var distance_to_player = global_position.distance_to(player.global_position)
 
@@ -165,6 +195,10 @@ func die() -> bool:
 
 ## Handle collision with player (contact damage)
 func _on_body_entered(body: Node2D) -> void:
+	# Only deal damage if this enemy type can attack
+	if not enemy_data or not enemy_data.can_attack:
+		return
+
 	if body is Player and damage_cooldown <= 0:
 		body.take_damage(contact_damage)
 		damage_cooldown = damage_cooldown_time

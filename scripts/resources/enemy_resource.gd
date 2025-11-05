@@ -54,7 +54,12 @@ class_name EnemyResource
 @export var separation_distance: float = 30.0
 
 ## Can this enemy attack? (future: ranged enemies)
-@export var can_attack: bool = false
+@export var can_attack: bool = true
+
+## Optional: Custom behavior script that overrides default enemy behavior
+## Leave empty to use default chase-player behavior
+## Assign a GDScript (.gd file) that extends EnemyBehavior to customize movement/attacks
+@export var custom_behavior_script: GDScript
 
 @export_group("Wave Spawning")
 ## What wave does this enemy first appear in?

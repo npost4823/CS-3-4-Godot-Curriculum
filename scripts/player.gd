@@ -134,6 +134,9 @@ func level_up_character() -> bool:
 	current_health = max_health
 	health_changed.emit(current_health, max_health)
 
+	# Update XP bar to show reset
+	xp_changed.emit(current_xp, xp_to_next_level)
+
 	print("🎉 LEVEL UP! Now level " + str(level))
 	print("XP to next level: " + str(xp_to_next_level))
 

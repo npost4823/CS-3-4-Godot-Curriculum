@@ -18,6 +18,9 @@ autoplay = "idle"
 
 [node name="ContactDamageArea" type="Area2D" parent="."]
 collision_layer = 2
+collision_mask = 1
+monitoring = true
+monitorable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamageArea"]
 shape = SubResource("RectangleShape2D_body")

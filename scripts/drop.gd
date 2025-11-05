@@ -5,8 +5,8 @@ class_name Drop
 ## Automatically moves toward player and grants XP on collection
 
 @export var xp_amount: int = 10
-@export var attraction_range: float = 150.0
-@export var attraction_speed: float = 200.0
+@export var attraction_range: float = 200.0
+@export var attraction_speed: float = 450.0
 @export var collect_range: float = 20.0
 
 
