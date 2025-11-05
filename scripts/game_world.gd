@@ -6,9 +6,6 @@ class_name GameWorld
 
 
 func _ready():
-	# Set global reference so other systems can find us
-	Global.game_world = self
-
 	# Connect to player death signal
 	if player:
 		player.player_died.connect(_on_player_died)

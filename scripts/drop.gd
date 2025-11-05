@@ -1,7 +1,7 @@
 extends Area2D
-class_name XPDrop
+class_name Drop
 
-## XP pickup that drops from enemies
+## Pickup that drops from enemies
 ## Automatically moves toward player and grants XP on collection
 
 @export var xp_amount: int = 10
@@ -22,7 +22,7 @@ func _ready() -> void:
 	_find_player()
 
 	if not player:
-		print("WARNING: XP Drop could not find Player!")
+		print("WARNING: Drop could not find Player!")
 
 
 func _process(delta: float) -> void:

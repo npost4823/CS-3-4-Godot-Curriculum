@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://bmn7y2kpqrs5e"]
 
 [ext_resource type="Script" uid="uid://co5hnowm81a7y" path="res://scripts/enemies/enemy_base.gd" id="1_enemy"]
-[ext_resource type="PackedScene" uid="uid://dvk3p8m4qpr1l" path="res://scenes/xp_drop.tscn" id="2_xp_drop"]
+[ext_resource type="PackedScene" uid="uid://dvk3p8m4qpr1l" path="res://scenes/drop.tscn" id="2_drop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(16, 16)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_enemy")
-xp_drop_scene = ExtResource("2_xp_drop")
+xp_drop_scene = ExtResource("2_drop")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_body")

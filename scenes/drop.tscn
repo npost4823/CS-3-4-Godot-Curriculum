@@ -1,17 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://dvk3p8m4qpr1l"]
 
-[ext_resource type="Script" uid="uid://b3ldewaxh81v" path="res://scripts/xp_drop.gd" id="1_xp_drop"]
+[ext_resource type="Script" uid="uid://b3ldewaxh81v" path="res://scripts/drop.gd" id="1_drop"]
 [ext_resource type="Texture2D" uid="uid://b7ttrt0q7xwdp" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png" id="2_coin_texture"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xp"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_drop"]
 
-[node name="XPDrop" type="Area2D"]
+[node name="Drop" type="Area2D"]
 collision_layer = 8
-script = ExtResource("1_xp_drop")
+script = ExtResource("1_drop")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.5, 1, 0.5, 1)
 texture = ExtResource("2_coin_texture")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_xp")
+shape = SubResource("CircleShape2D_drop")
