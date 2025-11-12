@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StatUpgradeResource" load_steps=2 format=3 uid="uid://c4xoixryeqchq"]
+
+[ext_resource type="Script" uid="uid://b27lwx066vj4h" path="res://scripts/resources/stat_upgrade_resource.gd" id="1_lsgis"]
+
+[resource]
+script = ExtResource("1_lsgis")
+upgrade_id = "damage_boost"
+upgrade_name = "More Damage"
+description = "Gives 10 more base damage"
+stat_type = 1
+amount = 10.0
+metadata/_custom_type_script = "uid://b27lwx066vj4h"

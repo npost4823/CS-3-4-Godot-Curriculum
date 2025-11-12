@@ -108,7 +108,7 @@ func _process(delta: float) -> void:
 
 
 ## Initialize the projectile with data from a ProjectileResource
-func setup(projectile_config: ProjectileResource) -> void:
+func setup(projectile_config: ProjectileResource, damageAddend) -> void:
 	if not projectile_config:
 		push_error("Projectile setup called with null ProjectileResource")
 		return
@@ -116,7 +116,7 @@ func setup(projectile_config: ProjectileResource) -> void:
 	# Store reference to resource for effect scripts
 	projectile_data = projectile_config
 
-	damage = projectile_config.damage
+	damage = projectile_config.damage + damageAddend
 	speed = projectile_config.speed
 	lifetime = projectile_config.lifetime
 	piercing = projectile_config.piercing

@@ -59,6 +59,8 @@ class_name WeaponSystem
 @onready var weapon_sprite: Sprite2D = $WeaponSprite
 @onready var fire_point: Marker2D = $FirePoint
 
+var damage_add_end = 0
+
 var fire_cooldown: float = 0.0
 var nearest_enemy: Node2D = null
 
@@ -143,7 +145,7 @@ func _fire_weapon(direction: Vector2) -> bool:
 
 		# Pass projectile resource to projectile
 		if equipped_weapon.projectile_config:
-			projectile_instance.setup(equipped_weapon.projectile_config)
+			projectile_instance.setup(equipped_weapon.projectile_config, damage_add_end)
 		else:
 			push_error("Weapon has no projectile_config set!")
 			projectile_instance.queue_free()

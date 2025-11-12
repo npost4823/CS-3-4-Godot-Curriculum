@@ -40,6 +40,7 @@ class_name Player
 ##   - Add upgrade_STAT functions (like upgrade_health)
 ##
 ## ============================================================================
+@onready var weapon_system: WeaponSystem = $WeaponSystem
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -214,6 +215,9 @@ func upgrade_health(amount: float) -> bool:
 	health_changed.emit(current_health, max_health)
 	return true
 
+func upgrade_damage(amount: float) -> bool:
+	weapon_system.damage_add_end += 10
+	return true
 
 ## Upgrade movement speed
 ## Returns true on successful upgrade

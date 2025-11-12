@@ -10,8 +10,10 @@
 [ext_resource type="Script" uid="uid://c0j86ysrsp8s8" path="res://scripts/wave_spawner.gd" id="7_spawner"]
 [ext_resource type="Resource" uid="uid://d3yxp7k2mqt6n" path="res://resources/enemies/basic_slime.tres" id="8_a43o1"]
 [ext_resource type="PackedScene" uid="uid://bmn7y2kpqrs5e" path="res://scenes/enemies/enemy.tscn" id="8_enemy"]
+[ext_resource type="Resource" uid="uid://da805nrige2g0" path="res://resources/enemies/fast_slime.tres" id="9_8vbsj"]
 [ext_resource type="Script" uid="uid://b27lwx066vj4h" path="res://scripts/resources/stat_upgrade_resource.gd" id="10_k1k1x"]
 [ext_resource type="Resource" uid="uid://cq8xm2v8pqb3h" path="res://resources/upgrades/health_upgrade.tres" id="11_ajq0i"]
+[ext_resource type="Resource" uid="uid://c4xoixryeqchq" path="res://resources/upgrades/damage_upgrade.tres" id="14_xsx6r"]
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_game_world")
@@ -28,9 +30,9 @@ position = Vector2(640, 380)
 [node name="WaveSpawner" type="Node2D" parent="."]
 script = ExtResource("7_spawner")
 enemy_scene = ExtResource("8_enemy")
-available_enemies = Array[ExtResource("7_ixwup")]([ExtResource("8_a43o1")])
+available_enemies = Array[ExtResource("7_ixwup")]([ExtResource("8_a43o1"), ExtResource("9_8vbsj")])
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 
 [node name="LevelUpUI" parent="." instance=ExtResource("6_levelup")]
-available_upgrades = Array[ExtResource("10_k1k1x")]([ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("11_ajq0i")])
+available_upgrades = Array[ExtResource("10_k1k1x")]([ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("11_ajq0i"), ExtResource("14_xsx6r"), ExtResource("14_xsx6r"), ExtResource("14_xsx6r")])
